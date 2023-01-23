@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>&lt;no title&gt; &#8212; sports-article-classification 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="nordskog_data.html" />
+    <link rel="prev" title="Welcome to sports-article-classification’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-src.data.data_scraper"></span><dl class="py function">
+<dt class="sig sig-object py" id="src.data.data_scraper.convert_df_to_csv">
+<span class="sig-prename descclassname"><span class="pre">src.data.data_scraper.</span></span><span class="sig-name descname"><span class="pre">convert_df_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/data/data_scraper.html#convert_df_to_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.data_scraper.convert_df_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>article_df</strong> (<em>pd.DataFrame</em>) – DataFrame that is to be exported as csv</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – string containing the path where the csv should be saved</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NoneType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data.data_scraper.create_date_interval_df">
+<span class="sig-prename descclassname"><span class="pre">src.data.data_scraper.</span></span><span class="sig-name descname"><span class="pre">create_date_interval_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_day</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_day</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/data_scraper.html#create_date_interval_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.data_scraper.create_date_interval_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a DataFrame with dates from start of interval to end.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_year</strong> (<em>int</em>) – start year</p></li>
+<li><p><strong>start_month</strong> (<em>int</em>) – start month</p></li>
+<li><p><strong>start_day</strong> (<em>int</em>) – start day</p></li>
+<li><p><strong>end_year</strong> (<em>int</em>) – end year</p></li>
+<li><p><strong>end_month</strong> (<em>int</em>) – end month</p></li>
+<li><p><strong>end_day</strong> (<em>int</em>) – end day</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame containing dates from start of interval to end</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data.data_scraper.find_relevant_articles">
+<span class="sig-prename descclassname"><span class="pre">src.data.data_scraper.</span></span><span class="sig-name descname"><span class="pre">find_relevant_articles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/data_scraper.html#find_relevant_articles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.data_scraper.find_relevant_articles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scrapes VG.no for relevant articles of football news and creates a
+DataFrame containing the title, url and date of those relevant articles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date_frame</strong> (<em>pd.DataFrame</em>) – DataFrame containing dates for collecting</p></li>
+<li><p><strong>articles.</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame containing title, url and date of relevant
+articles</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data.data_scraper.find_tag">
+<span class="sig-prename descclassname"><span class="pre">src.data.data_scraper.</span></span><span class="sig-name descname"><span class="pre">find_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/src/data/data_scraper.html#find_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.data_scraper.find_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the tags from the start of a html-tag string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – text as string containing html tags</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>string of two first characters ment to represent type of html tag</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data.data_scraper.main">
+<span class="sig-prename descclassname"><span class="pre">src.data.data_scraper.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/data/data_scraper.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.data_scraper.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that runs when __name__ == ‘__main__’ that scrapes football
+articles from VG.no posted between 01.01.2022 and 01.01.2023 and creates
+a csv file of the paragraphs found in those articles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NoneType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data.data_scraper.remove_html_tags">
+<span class="sig-prename descclassname"><span class="pre">src.data.data_scraper.</span></span><span class="sig-name descname"><span class="pre">remove_html_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/src/data/data_scraper.html#remove_html_tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.data_scraper.remove_html_tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove html tags from a text string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – text as string containing html tags</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>cleaned text string without html tags</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data.data_scraper.scrape_articles_from_url_df">
+<span class="sig-prename descclassname"><span class="pre">src.data.data_scraper.</span></span><span class="sig-name descname"><span class="pre">scrape_articles_from_url_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/data_scraper.html#scrape_articles_from_url_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.data_scraper.scrape_articles_from_url_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scraping articles from VG.no using the urls from the supplied
+DataFrame and perform som initial processing to create a complete df.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url_df</strong> (<em>pd.DataFrame</em>) – DataFrame containing the urls of the articles</p></li>
+<li><p><strong>scrape.</strong> (<em>to</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame containing html tags scraped from the urls.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">sports-article-classification</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">convert_df_to_csv()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#src.data.data_scraper.create_date_interval_df"><code class="docutils literal notranslate"><span class="pre">create_date_interval_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#src.data.data_scraper.find_relevant_articles"><code class="docutils literal notranslate"><span class="pre">find_relevant_articles()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#src.data.data_scraper.find_tag"><code class="docutils literal notranslate"><span class="pre">find_tag()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#src.data.data_scraper.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#src.data.data_scraper.remove_html_tags"><code class="docutils literal notranslate"><span class="pre">remove_html_tags()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#src.data.data_scraper.scrape_articles_from_url_df"><code class="docutils literal notranslate"><span class="pre">scrape_articles_from_url_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="nordskog_data.html"><code class="docutils literal notranslate"><span class="pre">check_for_existing_data()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="nordskog_data.html#src.data.nordskog_data.download_data"><code class="docutils literal notranslate"><span class="pre">download_data()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="nordskog_data.html#src.data.nordskog_data.get_data"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="nordskog_data.html#src.data.nordskog_data.get_git_root"><code class="docutils literal notranslate"><span class="pre">get_git_root()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="nordskog_data.html#src.data.nordskog_data.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="nordskog_data.html#src.data.nordskog_data.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html"><code class="docutils literal notranslate"><span class="pre">DataPreprocessor</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html#src.data.preprocessing.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to sports-article-classification’s documentation!</a></li>
+      <li>Next: <a href="nordskog_data.html" title="next chapter">&lt;no title&gt;</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Eirik Helland.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/data_scraper.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
