@@ -6,6 +6,7 @@ from tqdm import tqdm
 import re
 from src.slack_alert.sofus_alert import sofus_alert
 
+
 def create_date_interval_df(start_year: int, start_month: int,
                             start_day: int, end_year: int,
                             end_month: int, end_day: int) -> pd.DataFrame:
