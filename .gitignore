@@ -131,3 +131,6 @@ dmypy.json
 # Pycharm
 .DS_Store
 .idea
+
+# Personal
+*.ini

@@ -4,7 +4,7 @@ from datetime import date, timedelta
 import pandas as pd
 from tqdm import tqdm
 import re
-
+from src.slack_alert.sofus_alert import sofus_alert
 
 def create_date_interval_df(start_year: int, start_month: int,
                             start_day: int, end_year: int,
@@ -155,6 +155,7 @@ def main() -> None:
     article_df = scrape_articles_from_url_df(url_df)
     convert_df_to_csv(article_df, 'vg_articles_2022.csv')
     # article_df = pd.read_csv('vg_articles_2022.csv', encoding='utf-8-sig')
+    sofus_alert()
 
 
 if __name__ == '__main__':
