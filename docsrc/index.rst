@@ -10,15 +10,20 @@ Welcome to sports-article-classification!
    :maxdepth: 2
 
    README <readme_link>
-   EDA <eda>
 
 .. toctree::
    :maxdepth: 2
+   :caption: DATA:
+
+   EDA <eda>
+
+.. toctree::
+   :maxdepth: 3
    :caption: Methods:
 
-   data_scraper
-   nordskog_data
-   preprocessing
+   DATA SCRAPER <data_scraper>
+   NORDSKOG DATA <nordskog_data>
+   PREPROCESSING <preprocessing>
 
 
 Indices and tables
