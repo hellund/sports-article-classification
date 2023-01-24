@@ -28,7 +28,10 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.ifconfig',
               'sphinx.ext.viewcode',
               'sphinx.ext.githubpages',
-              'sphinx.ext.napoleon', ]
+              'sphinx.ext.napoleon',
+              'm2r', ]
+
+source_suffix = ['.rst', '.md']
 
 # Napoleon settings
 napoleon_google_docstring = True

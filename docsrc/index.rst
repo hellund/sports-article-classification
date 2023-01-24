@@ -6,10 +6,14 @@
 Welcome to sports-article-classification's documentation!
 =========================================================
 
+.. toctree::
+   :maxdepth: 2
+
+   README <readme_link>
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Methods:
 
    data_scraper
    nordskog_data
