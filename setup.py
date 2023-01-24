@@ -6,7 +6,5 @@ setup(
     packages=find_packages(include=['src.data',
                                     'src.data.*',
                                     'src.slack_alert',
-                                    'src.slack_alert.*',
-                                    'src',
-                                    'src.*'])
+                                    'src.slack_alert.*'])
 )

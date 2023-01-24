@@ -33,10 +33,10 @@ def load_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     root = get_project_root()
     train = pd.read_csv(root + '/src/data/training_data.csv',
                         names=['text', 'label'],
-                        encoding='utf-8-sig').reset_index(drop=True)
+                        encoding='utf-8-sig', header=0).reset_index(drop=True)
     test = pd.read_csv(root + '/src/data/testing_data.csv',
                        names=['text', 'label'],
-                       encoding='utf-8-sig').reset_index(drop=True)
+                       encoding='utf-8-sig', header=0).reset_index(drop=True)
     return train, test
 
 
