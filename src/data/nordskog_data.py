@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 from typing import Tuple
-import git
+from src.utils import get_project_root
 
 
 def download_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -23,19 +23,6 @@ def download_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     return train, test
 
 
-def get_git_root() -> str:
-    """Finds the root of the current git repository that can be used to locate
-    files independent on where the repository is cloned to.
-
-    Returns:
-        str: string containing root of git repository
-    """
-    path = os.getcwd()
-    git_repo = git.Repo(path, search_parent_directories=True)
-    git_root = git_repo.git.rev_parse("--show-toplevel")
-    return git_root
-
-
 def load_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Loads data from the current directory
 
@@ -43,7 +30,7 @@ def load_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
         tuple[pd.Dataframe, pd.DataFrame]: Tuple containing the training and
         test data as DataFrames
     """
-    root = get_git_root()
+    root = get_project_root()
     train = pd.read_csv(root + '/src/data/training_data.csv',
                         names=['text', 'label'],
                         encoding='utf-8-sig').reset_index(drop=True)
@@ -64,7 +51,7 @@ def check_for_existing_data(root: str = None) -> bool:
         directory
     """
     if root is None:
-        root = get_git_root()
+        root = get_project_root()
     if os.path.isfile(root + '/src/data/training_data.csv') \
             and os.path.isfile(root + '/src/data/testing_data.csv'):
         return True
