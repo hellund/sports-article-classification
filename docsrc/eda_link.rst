@@ -1,0 +1,5 @@
+EDA
+=======
+
+.. mdinclude:: ../EDA.md
+

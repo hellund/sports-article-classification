@@ -10,6 +10,7 @@ Welcome to sports-article-classification's documentation!
    :maxdepth: 2
 
    README <readme_link>
+   EDA <eda_link>
 
 .. toctree::
    :maxdepth: 2
