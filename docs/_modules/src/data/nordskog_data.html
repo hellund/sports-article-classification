@@ -154,8 +154,8 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme_link.html">Readme File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme_link.html#sports-article-classification">sports-article-classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme_link.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../eda.html">EDA</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
 <ul>
@@ -169,7 +169,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../nordskog_data.html"><code class="docutils literal notranslate"><span class="pre">check_for_existing_data()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nordskog_data.html#src.data.nordskog_data.download_data"><code class="docutils literal notranslate"><span class="pre">download_data()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nordskog_data.html#src.data.nordskog_data.get_data"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../nordskog_data.html#src.data.nordskog_data.get_git_root"><code class="docutils literal notranslate"><span class="pre">get_git_root()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nordskog_data.html#src.data.nordskog_data.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nordskog_data.html#src.data.nordskog_data.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../preprocessing.html"><code class="docutils literal notranslate"><span class="pre">DataPreprocessor</span></code></a></li>
@@ -211,7 +210,7 @@
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">import</span> <span class="nn">git</span>
+<span class="kn">from</span> <span class="nn">src.utils</span> <span class="kn">import</span> <span class="n">get_project_root</span>
 
 
 <div class="viewcode-block" id="download_data"><a class="viewcode-back" href="../../../nordskog_data.html#src.data.nordskog_data.download_data">[docs]</a><span class="k">def</span> <span class="nf">download_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
@@ -233,19 +232,6 @@
     <span class="k">return</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span></div>
 
 
-<div class="viewcode-block" id="get_git_root"><a class="viewcode-back" href="../../../nordskog_data.html#src.data.nordskog_data.get_git_root">[docs]</a><span class="k">def</span> <span class="nf">get_git_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Finds the root of the current git repository that can be used to locate</span>
-<span class="sd">    files independent on where the repository is cloned to.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        str: string containing root of git repository</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-    <span class="n">git_repo</span> <span class="o">=</span> <span class="n">git</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">search_parent_directories</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">git_root</span> <span class="o">=</span> <span class="n">git_repo</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">rev_parse</span><span class="p">(</span><span class="s2">&quot;--show-toplevel&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">git_root</span></div>
-
-
 <div class="viewcode-block" id="load_data"><a class="viewcode-back" href="../../../nordskog_data.html#src.data.nordskog_data.load_data">[docs]</a><span class="k">def</span> <span class="nf">load_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Loads data from the current directory</span>
 
@@ -253,13 +239,13 @@
 <span class="sd">        tuple[pd.Dataframe, pd.DataFrame]: Tuple containing the training and</span>
 <span class="sd">        test data as DataFrames</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">get_git_root</span><span class="p">()</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">get_project_root</span><span class="p">()</span>
     <span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">root</span> <span class="o">+</span> <span class="s1">&#39;/src/data/training_data.csv&#39;</span><span class="p">,</span>
                         <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">],</span>
-                        <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">root</span> <span class="o">+</span> <span class="s1">&#39;/src/data/testing_data.csv&#39;</span><span class="p">,</span>
                        <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">],</span>
-                       <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                       <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span></div>
 
 
@@ -274,7 +260,7 @@
 <span class="sd">        directory</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">root</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">root</span> <span class="o">=</span> <span class="n">get_git_root</span><span class="p">()</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">get_project_root</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">root</span> <span class="o">+</span> <span class="s1">&#39;/src/data/training_data.csv&#39;</span><span class="p">)</span> \
             <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">root</span> <span class="o">+</span> <span class="s1">&#39;/src/data/testing_data.csv&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">True</span>
