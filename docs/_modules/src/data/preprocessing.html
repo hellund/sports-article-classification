@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 6.1.3 and Furo 2022.12.07 -->
+    <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
         <title>src.data.preprocessing - sports-article-classification 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
@@ -159,6 +159,7 @@
 <p class="caption" role="heading"><span class="caption-text">DATA:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../eda.html">EDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clustering.html">CLUSTERING</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
 <ul>
@@ -205,7 +206,7 @@
 
 
 <div class="viewcode-block" id="DataPreprocessor"><a class="viewcode-back" href="../../../preprocessing.html#src.data.preprocessing.DataPreprocessor">[docs]</a><span class="k">class</span> <span class="nc">DataPreprocessor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class to preprocess data.</span>
+    <span class="sd">&quot;&quot;&quot;A class to preprocess data.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (pd.DataFrame): DataFrame that is to be preprocessed</span>
@@ -218,7 +219,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
 
 <div class="viewcode-block" id="DataPreprocessor.map_nordskog_data"><a class="viewcode-back" href="../../../preprocessing.html#src.data.preprocessing.DataPreprocessor.map_nordskog_data">[docs]</a>    <span class="k">def</span> <span class="nf">map_nordskog_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numeric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function that maps Nordskog training data to correct labels with</span>
+        <span class="sd">&quot;&quot;&quot;Function that maps Nordskog training data to correct labels with</span>
 <span class="sd">        option of making the labels numeric.</span>
 
 <span class="sd">        Args:</span>
@@ -242,7 +243,7 @@
 
 <div class="viewcode-block" id="DataPreprocessor.limit_number_of_targets_to_5_and_merge"><a class="viewcode-back" href="../../../preprocessing.html#src.data.preprocessing.DataPreprocessor.limit_number_of_targets_to_5_and_merge">[docs]</a>    <span class="k">def</span> <span class="nf">limit_number_of_targets_to_5_and_merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numeric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> \
             <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function that limits the targets to only being the top 5 most</span>
+        <span class="sd">&quot;&quot;&quot;Function that limits the targets to only being the top 5 most</span>
 <span class="sd">        frequent targets and merging the others to the most suited target.</span>
 
 <span class="sd">        Args:</span>
@@ -265,7 +266,7 @@
         <span class="k">return</span> <span class="n">data</span></div>
 
 <div class="viewcode-block" id="DataPreprocessor.remove_extra_spaces_from_text"><a class="viewcode-back" href="../../../preprocessing.html#src.data.preprocessing.DataPreprocessor.remove_extra_spaces_from_text">[docs]</a>    <span class="k">def</span> <span class="nf">remove_extra_spaces_from_text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function that removes extra spaces from data.</span>
+        <span class="sd">&quot;&quot;&quot;Function that removes extra spaces from data.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pd.DataFrame: DataFrame without extra spaces</span>
@@ -276,7 +277,7 @@
         <span class="k">return</span> <span class="n">data</span></div>
 
 <div class="viewcode-block" id="DataPreprocessor.remove_paragraphs_over_65_words"><a class="viewcode-back" href="../../../preprocessing.html#src.data.preprocessing.DataPreprocessor.remove_paragraphs_over_65_words">[docs]</a>    <span class="k">def</span> <span class="nf">remove_paragraphs_over_65_words</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function that removes paragraphs over 65 words from data.</span>
+        <span class="sd">&quot;&quot;&quot;Function that removes paragraphs over 65 words from data.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pd.DataFrame: DataFrame without texts over 65 words</span>
@@ -289,7 +290,7 @@
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../preprocessing.html#src.data.preprocessing.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Does some test using the DataPreprocessor class and prints out the</span>
+    <span class="sd">&quot;&quot;&quot;Does some test using the DataPreprocessor class and prints out the</span>
 <span class="sd">    results.</span>
 
 <span class="sd">    Returns:</span>
@@ -357,8 +358,10 @@
     </aside>
   </div>
 </div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/scripts/furo.js"></script>
     </body>
 </html>

@@ -1,0 +1,1090 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="DATA SCRAPER" href="data_scraper.html" /><link rel="prev" title="EDA" href="eda.html" />
+
+    <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
+        <title>Clustering - sports-article-classification 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">sports-article-classification 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">sports-article-classification 0.0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme_link.html">README</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DATA:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="eda.html">EDA</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">CLUSTERING</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_scraper.html">DATA SCRAPER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nordskog_data.html">NORDSKOG DATA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">PREPROCESSING</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="clustering">
+<h1>Clustering<a class="headerlink" href="#clustering" title="Permalink to this heading">#</a></h1>
+<section id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this heading">#</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">src.data.nordskog_data</span> <span class="kn">import</span> <span class="n">get_data</span>
+<span class="kn">from</span> <span class="nn">src.data.preprocessing</span> <span class="kn">import</span> <span class="n">DataPreprocessor</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>Clustering<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train_cluster</span><span class="p">(</span><span class="n">text_df</span><span class="p">,</span> <span class="n">n_clusters</span><span class="p">):</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">text_df</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+    <span class="n">tfidf</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;k-means++&#39;</span><span class="p">,</span>
+                   <span class="n">random_state</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">tfidf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tfidf</span><span class="p">)</span>
+    <span class="n">text_df</span><span class="p">[</span><span class="s1">&#39;cluster label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">labels_</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">text_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;cluster label&#39;</span><span class="p">])[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">text_df</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
+<span class="n">train</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">preprocessor</span> <span class="o">=</span> <span class="n">DataPreprocessor</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<span class="n">preprocessor</span><span class="o">.</span><span class="n">remove_paragraphs_over_65_words</span><span class="p">()</span>
+<span class="n">preprocessor</span><span class="o">.</span><span class="n">remove_paragraphs_over_65_words</span><span class="p">()</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">preprocessor</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">cluster_df</span> <span class="o">=</span> <span class="n">train_cluster</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">cluster_df</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5412</span><span class="p">,</span> <span class="mi">11077</span><span class="p">)</span>
+</pre></div>
+</div>
+<pre class="literal-block">C:UsersEirikanaconda3libsite-packagessklearncluster_kmeans.py:870: FutureWarning: The default value of <cite>n_init</cite> will change from 10 to 'auto' in 1.4. Set the value of <cite>n_init</cite> explicitly to suppress the warning
+  warnings.warn(</pre>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span> <span class="n">label</span>
+<span class="mi">0</span>      <span class="mi">395</span>
+<span class="mi">1</span>      <span class="mi">199</span>
+<span class="mi">2</span>     <span class="mi">1022</span>
+<span class="mi">3</span>      <span class="mi">350</span>
+<span class="mi">4</span>       <span class="mi">90</span>
+<span class="mi">5</span>      <span class="mi">109</span>
+<span class="mi">6</span>      <span class="mi">135</span>
+<span class="mi">7</span>      <span class="mi">451</span>
+<span class="mi">8</span>      <span class="mi">439</span>
+<span class="mi">9</span>      <span class="mi">121</span>
+<span class="mi">10</span>     <span class="mi">250</span>
+<span class="mi">11</span>     <span class="mi">677</span>
+<span class="mi">12</span>      <span class="mi">86</span>
+<span class="mi">13</span>     <span class="mi">230</span>
+<span class="mi">14</span>      <span class="mi">39</span>
+<span class="mi">15</span>      <span class="mi">93</span>
+<span class="mi">16</span>     <span class="mi">173</span>
+<span class="mi">17</span>     <span class="mi">139</span>
+<span class="mi">18</span>     <span class="mi">388</span>
+<span class="mi">19</span>      <span class="mi">26</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>label</th>
+      <th>cluster label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Vålerenga - Rosenborg 2-3</td>
+      <td>Ignore</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Sam Johnson ga vertene ledelsen, men Jonathan ...</td>
+      <td>Goal/Assist</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>På et hjørnespark langt på overtid kom avgjøre...</td>
+      <td>Goal/Assist</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Ti minutter før pause scoret Sam Johnson sitt ...</td>
+      <td>Goal/Assist</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Vålerenga holdt 1-0-ledelsen bare frem til sis...</td>
+      <td>Goal/Assist</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>5521</th>
+      <td>– Mateo har sagt at han ønsker å dra. Jeg vil ...</td>
+      <td>quote</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>5522</th>
+      <td>– Her gjør han en miss. Han står midt i mål, o...</td>
+      <td>quote</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>5523</th>
+      <td>– Vi kan ta med masse positivt fra kampen, for...</td>
+      <td>quote</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>5524</th>
+      <td>Den tyske midtbanespilleren kom til Bayern Mün...</td>
+      <td>Player details</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>5525</th>
+      <td>Bendtner har vært i norsk fotball siden mars 2...</td>
+      <td>Player details</td>
+      <td>11</td>
+    </tr>
+  </tbody>
+</table>
+<p>5412 rows × 3 columns</p>
+</div></section>
+<section id="exploring-the-clusters">
+<h2>Exploring the clusters<a class="headerlink" href="#exploring-the-clusters" title="Permalink to this heading">#</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cluster_generator</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="n">cluster</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">cluster_df</span><span class="p">[</span><span class="n">cluster_df</span><span class="p">[</span><span class="s2">&quot;cluster label&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cluster</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> samples </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">*</span><span class="mi">100</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">cluster_df</span><span class="p">[</span><span class="n">cluster_df</span><span class="p">[</span><span class="s1">&#39;cluster label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cluster</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]:</span>
+            <span class="k">yield</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="p">)</span>
+<span class="n">cluster_gen</span> <span class="o">=</span> <span class="n">cluster_generator</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">next_in_cluster_generator</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+        <span class="nb">next</span><span class="p">(</span><span class="n">cluster_gen</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="cluster-0">
+<h3>Cluster 0:<a class="headerlink" href="#cluster-0" title="Permalink to this heading">#</a></h3>
+<p>Key words: Goal, Goal, Own-Goal, Chance, Goal, Chance, Goal, Ball
+posession, Corner, Goal</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cluster</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">395</span> <span class="n">samples</span>
+<span class="n">____________________________________________________________________________________________________</span>
+
+<span class="n">Ti</span> <span class="n">minutter</span> <span class="n">før</span> <span class="n">pause</span> <span class="n">scoret</span> <span class="n">Sam</span> <span class="n">Johnson</span> <span class="n">sitt</span> <span class="n">første</span> <span class="n">mål</span> <span class="n">siden</span> <span class="n">midten</span> <span class="n">av</span> <span class="n">mai</span> <span class="n">da</span> <span class="n">han</span> <span class="n">dro</span> <span class="n">seg</span> <span class="n">fint</span> <span class="n">inn</span> <span class="n">fra</span> <span class="n">venstre</span> <span class="n">og</span> <span class="n">curlet</span> <span class="n">ballen</span> <span class="n">i</span> <span class="n">det</span> <span class="n">lengste</span> <span class="n">hjørnet</span> <span class="n">via</span> <span class="n">Hedenstad</span><span class="o">.</span>
+
+<span class="n">Vålerenga</span> <span class="n">holdt</span> <span class="mi">1</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="n">ledelsen</span> <span class="n">bare</span> <span class="n">frem</span> <span class="n">til</span> <span class="n">siste</span> <span class="n">spilleminutt</span> <span class="n">av</span> <span class="n">omgangen</span><span class="o">.</span> <span class="n">Jonathan</span> <span class="n">Levis</span> <span class="n">halvvolley</span> <span class="n">på</span> <span class="n">utsiden</span> <span class="n">av</span> <span class="mi">16</span><span class="o">-</span><span class="n">meteren</span> <span class="n">gikk</span> <span class="n">via</span> <span class="n">Bård</span> <span class="n">Finne</span> <span class="n">og</span> <span class="n">overlistet</span> <span class="n">keeper</span> <span class="n">Adam</span> <span class="n">Larsen</span> <span class="n">Kwarasey</span> <span class="n">på</span> <span class="n">hjemmelaget</span><span class="o">.</span>
+
+<span class="n">Andreomgang</span> <span class="n">var</span> <span class="n">bare</span> <span class="n">drøyt</span> <span class="n">fire</span> <span class="n">minutter</span> <span class="n">gammel</span> <span class="n">da</span> <span class="n">Rosenborg</span> <span class="n">hadde</span> <span class="n">snudd</span> <span class="n">kampen</span><span class="o">.</span> <span class="n">Hedenstads</span> <span class="n">hjørnespark</span> <span class="n">ble</span> <span class="n">slått</span> <span class="n">hardt</span> <span class="n">på</span> <span class="n">første</span> <span class="n">stolpe</span><span class="o">.</span> <span class="n">Enar</span> <span class="n">Jääger</span> <span class="n">var</span> <span class="n">uheldig</span> <span class="n">og</span> <span class="n">headet</span> <span class="n">ballen</span> <span class="n">i</span> <span class="n">eget</span> <span class="n">mål</span><span class="o">.</span>
+
+<span class="n">Bård</span> <span class="n">Finne</span> <span class="n">skapte</span> <span class="n">kampens</span> <span class="n">første</span> <span class="n">store</span> <span class="n">mulighet</span> <span class="n">da</span> <span class="n">han</span> <span class="n">snappet</span> <span class="n">ballen</span> <span class="n">fra</span> <span class="n">Vegard</span> <span class="n">Eggen</span> <span class="n">Hedenstad</span><span class="p">,</span> <span class="n">dro</span> <span class="n">seg</span> <span class="n">inn</span> <span class="n">i</span> <span class="n">banen</span> <span class="n">og</span> <span class="n">fyrte</span> <span class="n">av</span><span class="p">,</span> <span class="n">men</span> <span class="n">ballen</span> <span class="n">gikk</span> <span class="n">i</span> <span class="n">stolpen</span><span class="o">.</span>
+
+<span class="n">I</span> <span class="n">det</span> <span class="mf">48.</span> <span class="n">minutt</span> <span class="n">klarte</span> <span class="n">endelig</span> <span class="n">Sarpsborg</span> <span class="n">å</span> <span class="n">bryte</span> <span class="n">seg</span> <span class="n">gjennom</span> <span class="n">Odd</span><span class="o">-</span><span class="n">forsvaret</span><span class="o">.</span> <span class="n">Heinz</span> <span class="n">utnyttet</span> <span class="n">Vegard</span> <span class="n">Bergans</span> <span class="n">balltap</span> <span class="n">på</span> <span class="n">egen</span> <span class="n">banehalvdel</span> <span class="n">og</span> <span class="n">spilte</span> <span class="n">videre</span> <span class="n">til</span> <span class="n">Thomassen</span><span class="o">.</span> <span class="n">S08</span><span class="o">-</span><span class="n">kapteinen</span> <span class="n">dro</span> <span class="n">seg</span> <span class="n">innover</span> <span class="n">i</span> <span class="n">boksen</span> <span class="n">og</span> <span class="n">hamret</span> <span class="n">inn</span> <span class="mi">1</span><span class="o">-</span><span class="mi">1</span> <span class="n">i</span> <span class="n">venstre</span>
+                        <span class="n">hjørne</span><span class="o">.</span>
+
+<span class="n">Kvarteret</span> <span class="n">før</span> <span class="n">slutt</span> <span class="n">burde</span> <span class="n">Birk</span> <span class="n">Risa</span> <span class="n">punktert</span> <span class="n">oppgjøret</span> <span class="k">for</span> <span class="n">Odd</span><span class="o">.</span> <span class="n">Etter</span> <span class="n">et</span> <span class="n">Ruud</span><span class="o">-</span><span class="n">frispark</span> <span class="n">løp</span> <span class="n">Risa</span> <span class="n">seg</span> <span class="n">fri</span> <span class="n">og</span> <span class="n">fikk</span> <span class="n">stå</span> <span class="n">helt</span> <span class="n">alene</span><span class="p">,</span> <span class="n">men</span> <span class="n">fra</span> <span class="n">fem</span> <span class="n">meter</span> <span class="n">skjøt</span> <span class="n">han</span> <span class="n">ballen</span> <span class="n">utenfor</span> <span class="n">mål</span><span class="o">.</span>
+
+<span class="n">Rossbachs</span> <span class="n">redning</span> <span class="n">av</span> <span class="n">Heinz</span><span class="o">-</span><span class="n">forsøket</span> <span class="n">var</span> <span class="n">imponerende</span><span class="o">.</span> <span class="n">Han</span> <span class="n">måtte</span> <span class="n">rygge</span> <span class="n">bakover</span> <span class="n">mot</span> <span class="n">eget</span> <span class="n">mål</span> <span class="n">før</span> <span class="n">han</span> <span class="n">kastet</span> <span class="n">seg</span> <span class="n">bakover</span> <span class="n">og</span> <span class="n">fikk</span> <span class="n">ballen</span> <span class="n">unna</span><span class="o">.</span>
+
+<span class="n">I</span> <span class="n">det</span> <span class="mf">65.</span> <span class="n">spilleminutt</span> <span class="n">tok</span> <span class="n">Juventus</span> <span class="n">godt</span> <span class="n">vare</span> <span class="n">på</span> <span class="n">en</span> <span class="n">kontringsmulighet</span><span class="o">.</span> <span class="n">Emre</span> <span class="n">Can</span> <span class="n">avanserte</span> <span class="n">fremover</span> <span class="n">og</span> <span class="n">slapp</span> <span class="n">ballen</span> <span class="n">til</span> <span class="n">Ronaldo</span><span class="p">,</span> <span class="n">som</span> <span class="n">fra</span> <span class="n">litt</span> <span class="n">skrått</span> <span class="n">hold</span> <span class="n">satte</span> <span class="n">ballen</span> <span class="n">i</span> <span class="n">det</span> <span class="n">lengste</span> <span class="n">hjørnet</span> <span class="n">til</span> <span class="n">sitt</span> <span class="n">andre</span> <span class="n">mål</span> <span class="k">for</span> <span class="n">ettermiddagen</span><span class="o">.</span>
+
+<span class="n">Så</span> <span class="n">fikk</span> <span class="n">Ranheim</span> <span class="n">endelig</span> <span class="n">tak</span> <span class="n">i</span> <span class="n">ballen</span><span class="p">,</span> <span class="n">og</span> <span class="n">endret</span> <span class="n">kampbildet</span> <span class="n">totalt</span><span class="o">.</span>
+
+<span class="n">En</span> <span class="n">utoverskrudd</span> <span class="n">Ranheim</span><span class="o">-</span><span class="n">corner</span> <span class="n">landet</span> <span class="n">på</span> <span class="n">lengste</span><span class="p">,</span> <span class="n">der</span> <span class="n">Eirik</span> <span class="n">Valla</span> <span class="n">Dønnem</span> <span class="n">fikk</span> <span class="n">et</span> <span class="n">kne</span> <span class="n">på</span> <span class="n">ballen</span><span class="o">.</span> <span class="n">Ballen</span> <span class="n">spratt</span> <span class="n">inn</span> <span class="n">mot</span> <span class="n">målet</span><span class="p">,</span> <span class="n">der</span> <span class="n">Helmersen</span><span class="p">,</span> <span class="n">som</span> <span class="n">fikk</span> <span class="n">sjansen</span> <span class="n">i</span> <span class="n">Michael</span> <span class="n">Karlsens</span> <span class="n">skadefravær</span><span class="p">,</span> <span class="n">ventet</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="cluster-1">
+<h3>Cluster 1<a class="headerlink" href="#cluster-1" title="Permalink to this heading">#</a></h3>
+<p>keywords: Quote/Feelings, Quote/Pleased, Quote/No regrets,
+Quote/Expectations, Quote/Booking, Quote/Missed chances, Quote/Goal,
+Quote/Chance, Quote/Belief, Quote/Pitch</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 1 - 199 samples
+____________________________________________________________________________________________________
+
+– Jeg var litt engstelig, med alt som skjedde etter at jeg forlot Real Madrid for å komme hit, men det er slik livet er, sier Ronaldo etter kampen ifølge AS.
+
+– Men jeg er fornøyd. Jeg vet at jeg jobbet godt, og at målene ville komme. Jeg setter pris på lagkameratene mine, som har hjulpet meg mye med å tilpasse meg den italienske serien.
+
+– Jeg har ikke angret ett sekund, sier Fellah til VG.
+
+– Jeg visste at jeg kom til en klubb der det forventes titler. Og de fikk en spiller som forventer å vinne. Vi passer sammen, sier Jebali.
+
+– Jeg tror først det er Kind Mikalsen som gjør forseelsen, så jeg gir han gult kort først, så det røde, men får raskt på øret at jeg bommer på både farge og spiller. Siden det er en åpenbar scoringsmulighet er det klink rødt, sier Hobber Nilsen.
+
+– Hvis det var noen som skulle score i denne kampen her, så var det meg. Jeg hadde mange sjanser, og burde scoret to til, sier Nguen til VG.
+
+– Jeg skjønte det med en gang jeg traff ballen med vrista at den kom til å gå inn. Det var et veldig viktig poeng, sier Nguen.
+
+– Jeg så en åpning, og prøvde meg på lengste. Men så fikk én av dem en fot på ballen, sier Nguen, om den første sjansen.
+
+– Man leser hele tida at ingen har troa, men jeg spiller her og har hundre prosent troen. Jeg spiller her og ser hvordan spillerne og trenerne jobber hver eneste dag. Jeg har troa helt fram til regnestykket sier at det er umulig å berge plassen, sier Fellah.
+
+– Jeg tror vel ikke akkurat at banen ble bedre av det, kommenterte Knutsen.
+</pre></div>
+</div>
+</section>
+<section id="cluster-2">
+<h3>Cluster 2<a class="headerlink" href="#cluster-2" title="Permalink to this heading">#</a></h3>
+<p>Keywords: Score, Injury, Chance, Next game, Garbage, Score, Story
+building, Quote, Game comment, Score</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 2 - 1022 samples
+____________________________________________________________________________________________________
+
+Vålerenga - Rosenborg 2-3
+
+Enar Jääger og Mohammed Abu måtte for øvrig ut med skade for VIF.
+
+I siste spilleminutt hadde Samúel Kari Fridjónsson en god mulighet på frispark, men Rosenborg-målvakt André Hansen fikk slått unna.
+
+Sarpsborg innleder torsdag sitt gruppespilleventyr i europaligaen med bortekamp mot tyrkiske Besiktas i Istanbul. Der må sarpingene regne med at det blir skikkelig kok.
+
+(©NTB)
+
+Ranheim-Strømsgodset 1-1
+
+Strømsgodset lå lenge an til å tape 0-1 borte for Ranheim søndag.
+
+
+                    – Dette ene poenget kan vise seg å bli svært viktig for dem.
+
+Steffen Iversen etterlyser mer støtte til Marcus Pedersen på topp.
+
+Start - Lillestrøm 3-0
+</pre></div>
+</div>
+</section>
+<section id="cluster-3">
+<h3>Cluster 3<a class="headerlink" href="#cluster-3" title="Permalink to this heading">#</a></h3>
+<p>Keywords: Expert comment, Quote/Expert, Quote/Expert, Quote/Expert,
+Quote/Expert. Quote/Expert, Quote/Player, Quote/Player, Quote/Player,
+Storytelling</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 3 - 350 samples
+____________________________________________________________________________________________________
+
+For til tross for et viktig bortepoeng, er sannheten at Strømsgodset nok en gang underpresterte, mener TV 2s fotballekspert Jesper Mathisen.
+
+– Det er blytungt for Lillestrøm, som går på et tap, får Amundsen utvist og Erling Knudtzon går ut med skade, sier TV 2s fotballekspert Jesper Mathisen.
+
+– Han har vist at han duger, sier TV 2s fotballekspert Jesper Mathisen.
+
+– Adeleke Akinyemi har vært lovende i perioder i enkelte kamper, men målene har manglet. Han var nær sist. Han scoret mye i Europaliga-kvaliken for sin forrige klubb, så han har vist at han duger. Alle som er glade i Kristiansand, Sørlandet og Start håper han er målscoreren Start har trengt, sier TV 2s fotballekspert Jesper Mahtisen.
+
+– Mannen som ble hentet for mange, mange millioner på overgangsvinduets siste dag har startet nedbetalingen. Det er en strålende prestasjon. Han kjørte karusell med en Lillestrøm-forsvarer. Marius Amundsen forsvant langt ut på den
+                        glatte banen i Kristiansand, sa TV 2s ekspert Jesper Mathisen i FotballXtra-studio.
+
+– Helt korrekt. Så lenge det er holding, så er det ikke et ærlig forsøk, sier TV 2s fotballekspert Jesper Mathisen.
+
+Nå håper Fellah at returen til norsk fotball og Sandefjord kan få fart på karrieren igjen. For selv om han har blitt 29 år, er teknikeren klar på at han har mer å komme med som fotballspiller.
+
+– Det er helt sikkert 10 ganger opp og ned med fly den siste tiden, sier matchvinneren.
+
+– Det er derfor de kjøpte meg, sier tunisieren. Han virker helt rolig av oppstyret, mener han vet hva han kan. Han er ikke overrasket over noen ting.
+
+Og med matchvinnere som Issam Jebali i stallen, er det ikke sikkert at den påstanden blir feil til slutt.
+</pre></div>
+</div>
+</section>
+<section id="cluster-4">
+<h3>Cluster 4<a class="headerlink" href="#cluster-4" title="Permalink to this heading">#</a></h3>
+<p>Keywords: Goal, Goal, Summary, Score, Score, Score, Summary, Summary,
+Goal, Table</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 4 - 90 samples
+____________________________________________________________________________________________________
+
+Cardiff tok ledelsen på Stamford Bridge ved Sol Bamba, da han scoret på Chelsea-keeper Kepa fra kloss hold etter 17 minutters spill.
+
+Hazard-hat trick sendte Chelsea over Liverpool
+
+Cardiff yppet seg tidvis i andre omgang, men Chelsea-innbytter Willian skaffet først et straffespark – som Hazard satte sikkert i nettet. Og så fikk Willian kjempetreff fra distanse, og hamret inn 4–1.
+
+Chelsea – Cardiff 4-1 (2-1)
+
+Mål: 0-1 Sol Bamba (16), 1-1 Eden Hazard (37), 2-1 Hazard (43), 3-1 Hazard (str. 80), 4-1 Willian (83).
+
+Newcastle – Arsenal 1-2 (0-0)
+
+Eden Hazard ble kampens store spiller med tre målene for Chelsea. Like før slutt la Willian på til 4-0 med fantastisk treff, før Cardiff reduserte.
+
+Det startet ikke så lovende for Chelsea, for etter et kvarters spill headet Sean Morrison på tvers innenfor feltet og Sol Bamba kriget inn 1-0-målet for Cardiff.
+
+To minutter før pause la Giroud igjen et innlegg fra Pedro Rodríguez til Eden Hazard, som via en Cardiff-forsvarer satte inn 2-1 for Chelsea.
+
+Briljant Hazard sendte Chelsea opp på tabelltopp med hat-trick
+</pre></div>
+</div>
+</section>
+<section id="cluster-5">
+<h3>Cluster 5<a class="headerlink" href="#cluster-5" title="Permalink to this heading">#</a></h3>
+<p>Keywords: Watch the game x 10</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 5 - 109 samples
+____________________________________________________________________________________________________
+
+Se Besiktas mot Sarpsborg på TV 2 Sport 1 og Sumo torsdag fra kl. 18.15.
+
+ Se Mesterligaen på TV 2 Sport 1 og TV 2 Sumo på tirsdag og onsdag.
+
+
+
+Se Wolverhampton - Burnley på TV 2 Sport Premium og TV 2 Sumo søndag klokken 14.30
+
+
+Se Champions League-godbiten mellom Liverpool mot Paris Saint-Germain på TV 2 Sport 1 og Sumo tirsdag kveld fra klokken 20.00.
+
+ Se Watford-Manchester United på TV 2 Sport Premium og TV 2 Sumo lørdag fra klokken 18.30.
+
+Se Watford - Manchester United på Sumo eller TV 2 Sport Premium på lørdag fra klokken 18.30.
+
+Se Liverpool mot PSG på TV 2 Sport 1 og Sumo tirsdag fra klokken 20.00.
+
+Se Watford mot Manchester United på TV 2 Sport Premium og Sumo lørdag kveld fra kl. 18.00. Kampstart kl. 18.30.
+
+Liverpool spiller sin generalprøve i toppkampen mot Tottenham lørdag. Kampen sendes på TV 2 Sport Premium og Sumo fra klokken 13.00.
+
+Se Watford-Manchester United lørdag 18.30 på TV 2 Sumo og TV 2 Sport Premium!
+</pre></div>
+</div>
+</section>
+<section id="cluster-6">
+<h3>Cluster 6<a class="headerlink" href="#cluster-6" title="Permalink to this heading">#</a></h3>
+<p>Keywords: Garbage, Score, Storytelling, Statistics, Chance, Score,
+Score, Summary, Storytelling, Storytelling</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 6 - 135 samples
+____________________________________________________________________________________________________
+
+* 84 for Manchester United.
+
+(Watford – Manchester United 1–2) Watford har hatt en glohet start på Premier League med fire seire av fire mulige. Mot Manchester United kom de derimot fort ned på jorden igjen.
+
+For etter seire mot Brighton, Burnley, Crystal Palace og Tottenham hadde Watford vind i seilene før de tok imot Manchester United hjemme på Vicarage Road.
+
+Målet var også Lukakus 20. på 39 seriekamper for Manchester United. Kun Ruud van Nistelrooy (26), Robin van Persie (32) og Dwight York (34) brukte færre kamper på å nå 20 seriemål for klubben, ifølge Opta.
+
+Manchester City skapte enormt med sjanser mot Fulham hjemme i Manchester, det kunne blitt langt flere enn tre scoringer for Pep Guardolas mannskap.
+
+Manchester C. – Fulham 3-0 (2-0)
+
+Watford-Manchester United 1-2
+
+Manchester United vant etter praktomgang: – Noe av det bedre jeg har sett av dem
+
+Manchester United stoppet Watfords seiersrekke. Mye takket være en glimrende førsteomgang.
+
+Mye takket være en svært god førsteomgang. Da imponerte Manchester United, for anledningen antrukket i pastellrosa drakter.
+</pre></div>
+</div>
+</section>
+<section id="cluster-7">
+<h3>Cluster 7<a class="headerlink" href="#cluster-7" title="Permalink to this heading">#</a></h3>
+<p>Keywords: Summary, Match winner, Match winner, Match winner, Match
+winner, Goal, Injury, Summary, Goal, Summary</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 7 - 451 samples
+____________________________________________________________________________________________________
+
+Sam Johnson ga vertene ledelsen, men Jonathan Levi og et selvmål av Enar Jääger snudde kampen, før tidligere Brann-spiller Amin Nouri ordnet 2-2 med mål i sin andre strake (!) hjemmekamp.
+
+På et hjørnespark langt på overtid kom avgjørelsen for Rosenborg da et hjørnespark havnet hos nysigneringen Jebali på bakerste stolpe.
+
+Nesten fem minutter på overtid kom avgjørelsen da Jebali snek seg inn på bakerste stolpe på hjørnespark og med en velplassert volley styrte inn 3-2.
+
+Avgjørelsen falt da Ruud bøyde et frispark over muren og i venstre kryss sju minutter etter pause.
+
+Gleden på et regnfylt Sarpsborg stadion varte ikke lenge. Bare fire minutter senere prikket Ruud inn vinnermålet på frispark. Amin Askar hoppet desperat på streken, men kom ikke høyt nok opp.
+
+Hjemmelagets Andreas Helmerens sendte vertene i ledelsen etter 28 minutter og trodde nok at han hadde blitt matchvinner.
+
+Et skår i gleden for bursdagsbarnet Pellegrini var at Marko Arnautovic, som til tider terroriserte Everton-forsvaret, måtte forlate banen med en skade etter 65 minutter. Da hadde han nettopp scoret West Hams 3-1-mål.​
+
+Mot Lillestrøm kom den endelig da han på nydelig vis satte inn 1-0, og i andreomgang hadde han muligheter til å score enda flere. Kevin Kabran doblet fra straffemerket, før Mathias Bringaker la på 3-0 etter pause.
+
+Allerede etter fem minutters spill tok Start ledelsen ved Akinyemi, som rundlurte Marius Amundsen og satte inn 1-0 for kristiansanderne.
+
+Start tok en livsviktig 3-0-seier mot Lillestrøm, som måtte spille store deler av kampen med ti spillere etter utvisningen av Marius Amundsen etter 19 minutter.
+</pre></div>
+</div>
+</section>
+<section id="cluster-8">
+<h3>Cluster 8<a class="headerlink" href="#cluster-8" title="Permalink to this heading">#</a></h3>
+<p>Keywords: Goal, Quote/Coach, Quote/Player, Goal, Quote/Coach, Booking,
+Booking, Summary, Summary, Statement</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 8 - 439 samples
+____________________________________________________________________________________________________
+
+Det varte imidlertid ikke lenge, for i det 58. spilleminutt havnet en retur fra André Hansen i beina på Amin Nouri, som banket inn 2-2 for Vålerenga. Dermed har høyrebacken scoret i to strake hjemmekamper.
+
+– Bittert. Det er mye mer bittert enn å tape drittkamp der du blir rundspilt og ikke fortjener noe, men i dag var det glød i øynene på gutta. Det var tro, hardt arbeid og masse offensivt spill. Det var en herlig ramme med fantastiske
+                        supportere, sier Vålerenga-trener Ronny Deila til TV 2.
+
+– Det var en fantastisk avslutning. Vi var slitne og det var en vanskelig kamp, sier matchvinneren til TV Norge.​
+
+Kevin Kabran var sikker og satte inn 2-0 mot Lillestrøm med ti spillere.
+
+– Det var en kamp som var utrolig spesiell. Det skjer utrolig mye det første kvarteret, og det som skjer der blir avgjørende for kamp. En marerittstart for vår del med målene, straffen, rødt kort og Erling Knudtzon skadet på bare ti minutter, sier LSK-trener Jörgen Lennartsson til TV 2.
+
+Start fikk straffespark og Amundsen ble utvist, selv om det først var Simen Kind Mikalsen som feilaktig ble vist det røde kortet.
+
+Douglas Costa svarte med å sette albuen i ansiktet på Di Francesco, før han skallet til Sassuolo-spilleren. Costa var heldig og fikk først kun gult kort av dommeren.
+
+Det var Everton som hadde initiativet i kampen og presset på for scoring, men bakover lakk de som en sil.
+
+Juventus&#39; innbytter, som var livlig etter å ha kommet innpå i andreomgang, ble taket hardt av Federico Di Francesco i forkant av Sassuolos redusering til 1-2.
+
+Det var en lettet Ronaldo som kunne juble for mål, men 33-åringen kunne og burde scoret enda flere i søndagens kamp.
+</pre></div>
+</div>
+</section>
+<section id="cluster-9">
+<h3>Cluster 9<a class="headerlink" href="#cluster-9" title="Permalink to this heading">#</a></h3>
+<p>Keywords: Table, Table, Table, Result, Table, Save, Table, Table,
+Summary, Summary</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 9 - 121 samples
+____________________________________________________________________________________________________
+
+Rosenborg er tilbake på toppen av Eliteserien etter at Brann lånte den i et drøyt døgn etter 3-1 over Haugesund.
+
+Rosenborg leder to poeng foran Brann. Vålerenga er nummer seks med fem poeng opp til Haugesund på tredjeplass.
+
+Odd er litt i dytten om dagen. Telemarkingene er ubeseiret på sine sju siste seriekamper. Odds forrige tap kom mot Tromsø 1. juli. Dag-Eilev Fagermos menn står med 30 poeng. Det er to poeng mindre enn Sarpsborg.
+
+Ranet med seg ett poeng i Ranheim: – De må passe seg
+
+Strømsgodset ranet til seg uavgjort på overtid. Det er ett poeng som kan vise seg å bli livsviktig i kampen for å unngå nedrykk.
+
+Så dukket Tokmac Nguen opp to minutter på overtid og reddet et svært viktig poeng for drammenserne.
+
+Med Start-seier og Stabæk-poeng har Strømsgodset dermed plutselig begge bein godt plantet i bunnstriden, kun fire poeng over direkte nedrykk.
+
+Juventus, som har vunnet ligaen de sju siste sesongene, topper Serie A med full pott etter fire runder. Napoli følger på andreplass med ni poeng etter like mange kamper.
+
+En scoring fra tidligere Brann-back Amin Nouri og en misbrukt kjempesjanse fra RBKs Yann-Erik de Lanlay i sluttminuttene - og det så ut som Brann og Rosenborg skulle stå like i poeng før de åtte siste kampene.
+
+RANHEIM (VG) (Ranheim-Strømsgodset 1–1) Med ett av de siste sparkene på ballen reddet Tokmac Nguen (24) poeng for Strømsgodset, og snudde glede til fortvilelse blant hjemmelagets spillere.
+</pre></div>
+</div>
+</section>
+<section id="cluster-10">
+<h3>Cluster 10<a class="headerlink" href="#cluster-10" title="Permalink to this heading">#</a></h3>
+<p>Keywords:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 10 - 250 samples
+____________________________________________________________________________________________________
+
+– Det er helt nifst å se dette Strømsgodset-laget. Med alle de gode spillerne vet vi hva de kan gjøre på sitt beste. Se laget, stallen og banken. At ikke de kan skape mål, sjanser og vinne kamper, er helt utrolig, sier Jesper Mathisen
+                        i FotballXtra.
+
+– Vi er ikke tre mål bedre enn Lillestrøm, men tilfeldighetene gjorde det sånn, sier Start-trener Kjetil Rekdal til Eurosport.
+
+– Det er menneskelig å være slik. Av og til kan vi ikke kontrollere angsten vår.
+
+– Siden mars måned intensiverte vi interessen for Jebali. Så slo vi til. Men folk sa det var «årets bom-kjøp», sier Bjørnebye - ironisk.
+
+– Da vi fikk corneren på overtid, så trodde jeg på seier, sier Stig Inge Bjørnebye. Og corneren ekspederte Issam Jebali i mål.
+
+– Fra halvspilt sesong og ut, spiller vi dobbelt så mange kamper som Brann. Vi har minimum 15 kamper, kanskje både 16 og 17, mer enn Brann siden juli og ut sesongen. Men vi ser på dette som en fordel, sier Bjørnebye.
+
+– Seriemesterskapet skal vi vinne, hører vi Rini Coolen si.
+
+– Spillerne er utrolig skuffet. Hva skal jeg kalle det? «Ransskuffet». Ikke over prestasjonen, for dette var opp imot det beste vi kan. Det så ut til å holde til tre poeng. Når vi først har seieren i lomma, to minutter på overtid, så skal vi greie å ri det unna, sier Ranheim-trener Svein Maalen, til VG.
+
+– Kampen blir for oppjaga og vi har ballen altfor lite på slutten. Aller mest ligger det i at vi burde scoret 2-0 på en av de mange kontringsmulighetene vi hadde. Vi skal straffe dem mye hardere der, og ikke søle bort sjansene.
+
+– Vi spilte en grei bortekamp, og hadde bra struktur defensivt. Vi har lett for å score mål, men slipper inn for mye mål. Jeg er godt fornøyd med ett poeng.
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 11 - 677 samples
+____________________________________________________________________________________________________
+
+Drammenserne har ikke vunnet på fem kamper, og nå venter Molde, Sarpsborg 08 og Haugesund de neste tre rundene.
+
+– De skal passe seg nå hvis de ikke klarer å heve seg.
+
+– Selv om de har Marcus Pedersen med 14 mål allerede, trenger han mer støtte som spiss. De trenger at midtbanespillerne kommer opp og at ikke alt blir liggende på skuldrene til Marcus, sier Steffen Iversen.
+
+Bjørn Petter Ingebretsen tok over som hovedtrener for Strømsgodset i sommer etter at Tor Ole Skullerud tok konsekvensen av en rekke dårlige resultater. Etter en brukbar start har imidlertid fremgangen uteblitt.
+
+John Arne Riise var ukens gjest i FotballXtra. Han er bekymret for at drammenserne har trent for dårlig.
+
+– De gjør for mange personlige feil og blir straffet hver gang. Jeg husker de spilte fantastisk fotball og det kom en bølge med løp. Alt går feil vei nå, og selvfølgelig har fått seg en knekk. Det skal du ikke kimse av, det har ekstremt
+                        mye å si i fotball.
+
+Adeleke Akinyemi ble hentet for om lag ti millioner kroner fra Ventspils i august, men scoringene har latt vente på seg.
+
+– Jeg ble overrasket av reaksjonen hans. Vi har sluppet inn et mål, fått et rødt kort og en suspensjon vil bli langvarig.
+
+De siste to årene, i Nordsjælland, har nemlig vært tunge. Fellah har knapt spilt kamper. Sist han startet en kamp før Sandefjord-returen, var 27. september 2017.
+
+SANDEFJORD (VG) Han har slitt benken og følt seg glemt i hjemlandet. Som Sandefjord-spiller vil Mohamed Fellah (29) bevise for det norske folk at han fortsatt har det i seg.
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 12 - 86 samples
+____________________________________________________________________________________________________
+
+Vinner selv på dårlige dager - se video under her:
+
+Se hvordan Start senket LSK her:
+
+• Her er søndagens oddstips
+
+ Her får du tilgang! ​
+
+
+Les minutt for minutt-referat fra kampen i TV 2s livesenter her.
+
+Thomas Lehne Olsen er «offside-kongen». Se alle avgjørelsene her:
+
+• Her er fredagens oddstips
+
+Se video fra 3–0-seieren under her
+
+Se begge intervjuene her og døm selv:
+
+Flere «stikk» her - se video:
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 13 - 230 samples
+____________________________________________________________________________________________________
+
+Ukraineren fikk æren av å sette ballen i det tomme nettet i sin første Premier League-start.
+
+På overtid av første omgang fikk blåtrøyene sin redusering. Da hadde Marcos Silva nettopp gjort et offensivt bytte da Morgan Schneiderlin måtte vike vei for lille Bernard som ble hentet gratis i sommer.
+
+Andreomgang startet like heseblesende som den første. Etter 60 minutter satt den igjen for bortelaget. Obiang og Arnautovic kombinerte nydelig enda en gang og åpnet opp Everton-forsvaret.
+
+Cristiano Ronaldo måtte gå frustrert og målløs av banen i sine tre første kamper for Juventus etter sommerens overgang.
+
+Ranheim så ut til å gå mot sin første seier på det nylagte kunstgresset. Men to minutter på overtid ødela en driblekonge fra Kenya moroa.
+
+Odd spilte for første gang med 17-åringen Joshua Kitolano fra start.
+
+33-åringen brukte 320 minutter på å score sitt første ligamål for Juventus, men i den fjerde ligakampen løsnet det:
+
+Lenge måtte de faktisk jage for å komme à jour med baskerne, som tok ledelsen i første omgang.
+
+Han vant den duellen han måtte vinne for å score sitt første mål i kamp fra start: 0–1 på Haugesund stadion, etter ni minutters spill.
+
+Det var Kings tredje scoring for sesongen, han står også med en målgivende fra før. Med fem målpoeng på de første fem kampene, har den norske spissen fått en strålende start på Premier League-sesongen.
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 14 - 39 samples
+____________________________________________________________________________________________________
+
+Bulgaria - Norge 1-0
+
+Se
+Bulgaria-Norge søndag 18.00 på TV 2!
+
+
+
+​Se Bulgaria-Norge søndag 18.00 på TV 2!
+
+Se Bulgaria-Norge på TV 2 og Sumo søndag fra kl. 17.30
+
+
+​Se Bulgaria-Norge søndag 18.00 på TV 2!
+
+Se Bulgaria-Norge søndag 18.00 på TV 2!
+
+Se Bulgaria-Norge søndag 18.00 på TV 2!
+
+
+Norge-Kypros 2-0
+
+Se Bulgaria-Norge søndag 18.00 på TV 2!
+
+Se Bulgaria-Norge søndag 18.00 på TV 2!
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 15 - 93 samples
+____________________________________________________________________________________________________
+
+I sin første sesong for Haugesund, på utlån fra den danske klubben, har nigerianeren vært den fremste offensive bidragsyteren på den nåværende tredjeplassen i Eliteserien. Seks mål og seks assists gjør ham til en av ligaens fremste målpoeng-plukkere – kun slått av Marcus Pedersen (15) og Erling Braut Håland (13).
+
+Molde var det beste laget på Aker stadion i første omgang av den siste play off-kampen for Europaliga-gruppespillet. Tidlig i kampen kunne Erling Braut Haaland sende Molde i ledelsen ta han kom alene med keeper, men skuddet gikk midt på Zenit-keeperen.
+
+MOLDE (VG) (Molde – Zenit 2–1, 3–4 sammenlagt) Molde kjempet og kjempet mot et godt organisert Zenit, men det ble bare nesten for Solskjær og hans menn.
+
+Eirik Hestad og Erling Haaland scoret målene da Molde vendte til 2-1-seier på hjemmebane. Det tredje målet som ville gitt ekstraomganger kom aldri.
+
+Haaland fullfører nemlig sesongen med Molde, før han offisielt blir RB Salzburg 1. januar 2019. Der blir han trolig værende en stund. Haaland har skrevet under på en femårskontrakt med den østerrikske storklubben.
+
+Braut Haaland klar for RB Salzburg: – Vinn-vinn-situasjon for Molde
+
+Moldenserne hadde store forhåpninger og forventninger om å sluttføre Haaland-avtalen med østerrikske Red Bull Salzburg i begynnelsen av uken, men da den norske overgangsfristen utløp natt til torsdag var overgangen fortsatt ikke bekreftet, er denne løsningen utelukket.
+
+Zenit St. Petersburg-Molde 3-1
+
+Braut Håland imponerte tross Molde-kollaps: – Landslagssjefen må elske det han ser
+
+Erling Braut Håland markerte seg mot de meritterte Zenit-forsvarerne, med fart, kraft og teknisk frekke detaljer.
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 16 - 173 samples
+____________________________________________________________________________________________________
+
+Se målene i Sportsnyhetene øverst.
+
+ Se begge målene i Sportsnyhetene øverst.
+
+
+
+ Se kampsammendraget i videovinduet øverst.
+
+
+
+ Se målene i Sportsnyhetene øverst!
+
+
+ Se målene i Sportsnyhetene øverst!
+
+
+Se skrekkskaden i Sportsnyhetene øverst.
+
+ Se Lucas Moura herje med Manchester United i videovinduet øverst.
+
+
+
+Se reportasje fra Wolverhampton-museet i videovinduet øverst
+
+Se målene i videovinduet øverst.
+
+ Se hvordan United slo Watford øverst!
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 17 - 139 samples
+____________________________________________________________________________________________________
+
+(Juventus-Sassuolo 2–1) Som i sin siste sesong for Real Madrid hadde Cristiano Ronaldo 27 forsøk før han endelig scoret for Juventus.
+
+* 311 for Real Madrid.
+
+Ronaldo gikk fra Real Madrid til Juventus i sommer. Pris: Snaut 950 millioner kroner. Han har skrevet en fireårskontrakt med en forventet årslønn på i underkant av 300 mill. kroner.
+
+For da Gareth Bale kom seg til dødlinjen snaue tre minutter senere, og la inn i feltet, var det ingen Athletic-spillere som plukket opp den 175 cm høye midtbanejuvelen. Isco stanget inn 1–1 for Real Madrid.
+
+Real Madrid tapte poeng og terreng til Barcelona
+
+(Atheltic Bilbao – Real Madrid 1–1) Etter at Barcelona vant tidligere lørdag måtte Real Madrid svare borte mot Atheltic Bilbao. Det gikk ikke som planlagt.
+
+For selv med Real Madrids «ferske» angrepstrio Gareth Bale, Karim Benzema og Marco Asensio på topp, slet de hvitkledde fra hovedstaden med å sette ballen i mål.
+
+Iker Muniain utnyttet et uorganisert Real Madrid-forsvar og kranglet inn 1–0 til vertene etter 32 minutter etter en skikkelig lagscoring.
+
+Fikk du med deg hva som skjedde under kampen mellom Castilla og Atletico Madrid B tidligere denne måneden?
+
+Etter 61 minutter tok Real Madrid-trener Julen Lopetegui ut mannen som nylig ble kåret til Årets spiller i Europa, Luka Modric, og satte inn Isco.
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 18 - 388 samples
+____________________________________________________________________________________________________
+
+Sarpsborgs poengfangst i Eliteserien har stoppet helt. Espen Ruud scoret begge Odds mål i 2-1-seieren i Østfold søndag.
+
+Espen Ruuds frisparkfot hylles etter at han ble matchvinner mot Sarpsborg.
+
+Endelig løsnet det for Ronaldo: Scoret to mål i Juventus-seier
+
+ Se høydepunktene fra kampen mot Start:
+
+Lagets to neste bortekamper er mot gulljagende Brann og Rosenborg.
+
+To mål av Espen Ruud - og Sarpsborg gikk på sitt fjerde strake tap
+
+Odd lot Sarpsborg trille ball - og scoret selv mål i 1. omgang.
+
+Etter 27 forsøk løsnet det: Ronaldo scoret to
+
+I fjor scoret Hegerberg 31 mål på 20 ligakamper for Lyon - i tillegg til 15 mål i Champions League som klubben vant. Det gjør at hun er en av tre nominerte til FIFAs kåring av «årets spiller». Vinneren blir offentliggjort 24. september.
+
+Lyon tok sin tredje strake seier i den franske toppdivisjonen søndag med 3–0 borte mot Guingamp. Hegerberg spilte i 73 minutter uten scoring. Eugenie Le Sommer satte alle tre målene for Lyon.
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">next_in_cluster_generator</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Cluster 19 - 26 samples
+____________________________________________________________________________________________________
+
+Tipster gir deg ferske oddstips hver dag!
+
+Tipster gir deg ferske oddstips hver dag!
+
+Tipster gir deg ferske oddstips hver dag!
+
+ Tipster gir deg ferske oddstips hver dag!
+
+Tipster gir deg ferske oddstips hver dag!
+
+Tipster gir deg ferske oddstips hver dag!
+
+Tipster gir deg ferske oddstips hver dag!
+
+Tipster gir deg ferske oddstips hver dag!
+
+Tipster gir deg ferske oddstips hver dag!
+
+ Tipster gir deg ferske oddstips hver dag!
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="data_scraper.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">DATA SCRAPER</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="eda.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">EDA</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Eirik Helland
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Clustering</a><ul>
+<li><a class="reference internal" href="#imports">Imports</a></li>
+<li><a class="reference internal" href="#id1">Clustering</a></li>
+<li><a class="reference internal" href="#exploring-the-clusters">Exploring the clusters</a><ul>
+<li><a class="reference internal" href="#cluster-0">Cluster 0:</a></li>
+<li><a class="reference internal" href="#cluster-1">Cluster 1</a></li>
+<li><a class="reference internal" href="#cluster-2">Cluster 2</a></li>
+<li><a class="reference internal" href="#cluster-3">Cluster 3</a></li>
+<li><a class="reference internal" href="#cluster-4">Cluster 4</a></li>
+<li><a class="reference internal" href="#cluster-5">Cluster 5</a></li>
+<li><a class="reference internal" href="#cluster-6">Cluster 6</a></li>
+<li><a class="reference internal" href="#cluster-7">Cluster 7</a></li>
+<li><a class="reference internal" href="#cluster-8">Cluster 8</a></li>
+<li><a class="reference internal" href="#cluster-9">Cluster 9</a></li>
+<li><a class="reference internal" href="#cluster-10">Cluster 10</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>
