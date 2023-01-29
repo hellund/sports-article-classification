@@ -16,7 +16,8 @@ Welcome to sports-article-classification!
    :caption: DATA:
 
    EDA <eda>
-
+   CLUSTERING <clustering>
+   
 .. toctree::
    :maxdepth: 3
    :caption: Methods:

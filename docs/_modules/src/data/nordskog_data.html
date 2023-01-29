@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 6.1.3 and Furo 2022.12.07 -->
+    <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
         <title>src.data.nordskog_data - sports-article-classification 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
@@ -159,6 +159,7 @@
 <p class="caption" role="heading"><span class="caption-text">DATA:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../eda.html">EDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clustering.html">CLUSTERING</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
 <ul>
@@ -206,7 +207,7 @@
 
 
 <div class="viewcode-block" id="download_data"><a class="viewcode-back" href="../../../nordskog_data.html#src.data.nordskog_data.download_data">[docs]</a><span class="k">def</span> <span class="nf">download_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download training and testing data from Nordskogs repo and returning</span>
+    <span class="sd">&quot;&quot;&quot;Download training and testing data from Nordskogs repo and returning</span>
 <span class="sd">    them as DataFrames.</span>
 
 <span class="sd">    Returns:</span>
@@ -225,7 +226,7 @@
 
 
 <div class="viewcode-block" id="load_data"><a class="viewcode-back" href="../../../nordskog_data.html#src.data.nordskog_data.load_data">[docs]</a><span class="k">def</span> <span class="nf">load_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loads data from the current directory</span>
+    <span class="sd">&quot;&quot;&quot;Loads data from the current directory</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        tuple[pd.Dataframe, pd.DataFrame]: Tuple containing the training and</span>
@@ -242,7 +243,7 @@
 
 
 <div class="viewcode-block" id="check_for_existing_data"><a class="viewcode-back" href="../../../nordskog_data.html#src.data.nordskog_data.check_for_existing_data">[docs]</a><span class="k">def</span> <span class="nf">check_for_existing_data</span><span class="p">(</span><span class="n">root</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if the data already exist as csv files in the directory</span>
+    <span class="sd">&quot;&quot;&quot;Checks if the data already exist as csv files in the directory</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        root (str): string containing the root directory</span>
@@ -261,7 +262,7 @@
 
 
 <div class="viewcode-block" id="get_data"><a class="viewcode-back" href="../../../nordskog_data.html#src.data.nordskog_data.get_data">[docs]</a><span class="k">def</span> <span class="nf">get_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieves data from Nordskog from local directory or from his Github.</span>
+    <span class="sd">&quot;&quot;&quot;Retrieves data from Nordskog from local directory or from his Github.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[pd.DataFrame, pd.DataFrame]: Training and testing data from</span>
@@ -275,7 +276,7 @@
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../nordskog_data.html#src.data.nordskog_data.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that makes sure that the data from Nordskog&#39;s thesis is</span>
+    <span class="sd">&quot;&quot;&quot;Function that makes sure that the data from Nordskog&#39;s thesis is</span>
 <span class="sd">    downloaded to directory and returned as two dataframes</span>
 
 <span class="sd">    Returns:</span>
@@ -321,8 +322,10 @@
     </aside>
   </div>
 </div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/scripts/furo.js"></script>
     </body>
 </html>
