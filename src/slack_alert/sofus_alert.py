@@ -17,3 +17,7 @@ def sofus_alert() -> None:
                                                                    'finished')
     except:
         pass
+
+
+if __name__ == '__main__':
+    pass

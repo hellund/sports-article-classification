@@ -10,11 +10,18 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import make_pipeline
 from sklearn.metrics import classification_report
 
+
 app = Flask(__name__)
 
 
 @app.route("/", methods=["POST"])
 def predict():
+    """Flask api that retrieves an input from doccano and predicts the
+    correct label using the largest active learning model.
+
+    Returns:
+        dict: Dict with "label" as key and predicted label as value
+    """
     loaded_model = pickle.load(open(find_newest_model(), 'rb'))
     new_input = request.get_json()
     print(new_input)
@@ -24,6 +31,18 @@ def predict():
 
 
 def train_model(X, y, C, gamma):
+    """Trains a SVC model using inputted data and parameters and pickles the
+    resulting model.
+
+    Args:
+        X (pd.Series): pd.Series with text data
+        y (pd.Series): pd.Series with label data
+        C (float): float with C value
+        gamma (float): float with gamma value
+
+    Returns:
+        NoneType
+    """
     vectorizer = TfidfVectorizer()
 
     x_train, x_test, y_train, y_test = train_test_split(X,
@@ -44,7 +63,7 @@ def train_model(X, y, C, gamma):
     # Predict class labels on a test data
     pred_labels_te = model.predict(x_test)
 
- # Use score method to get accuracy of the model
+    # Use score method to get accuracy of the model
     print('----- Evaluation on Test Data -----')
     score_te = model.score(x_test, y_test)
     print('Accuracy Score: ', score_te)
@@ -61,6 +80,11 @@ def train_model(X, y, C, gamma):
 
 
 def find_newest_model():
+    """Finds the largest model in the directory.
+
+    Returns:
+        str: String of the name of the larges/newest model
+    """
     models = []
     root = get_project_root()
     for file in os.listdir(root + '/src/modelling'):
@@ -80,4 +104,3 @@ if __name__ == '__main__':
     preprocessor.remove_paragraphs_over_65_words()
     train = preprocessor.data.copy()
     train_model(train['text'], train['label'], C=2, gamma=0.55)
-

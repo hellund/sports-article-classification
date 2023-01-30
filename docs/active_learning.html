@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="EDA" href="eda.html" /><link rel="prev" title="Welcome to sports-article-classification!" href="index.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="ACTIVE LEARNING DATA" href="active_learning_data.html" />
 
     <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
-        <title>Readme File - sports-article-classification 0.0.1 documentation</title>
+        <title>ACTIVE LEARNING - sports-article-classification 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -154,8 +154,8 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">README</a></li>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme_link.html">README</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">DATA:</span></p>
 <ul>
@@ -163,14 +163,14 @@
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">CLUSTERING</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="utils.html">UTILS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sofus_alert.html">SOFUS ALERT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_scraper.html">DATA SCRAPER</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nordskog_data.html">NORDSKOG DATA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="preprocessing.html">PREPROCESSING</a></li>
 <li class="toctree-l1"><a class="reference internal" href="active_learning_data.html">ACTIVE LEARNING DATA</a></li>
-<li class="toctree-l1"><a class="reference internal" href="active_learning.html">ACTIVE LEARNING</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">ACTIVE LEARNING</a></li>
 </ul>
 
 </div>
@@ -199,18 +199,63 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="readme-file">
-<h1>Readme File<a class="headerlink" href="#readme-file" title="Permalink to this heading">#</a></h1>
-<section id="sports-article-classification">
-<h2>sports-article-classification<a class="headerlink" href="#sports-article-classification" title="Permalink to this heading">#</a></h2>
-<p>Full project of master thesis containing data collection and machine learning of text from sports articles.</p>
-</section>
+          <section id="module-src.modelling.active_learning">
+<span id="active-learning"></span><h1>ACTIVE LEARNING<a class="headerlink" href="#module-src.modelling.active_learning" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.modelling.active_learning.find_newest_model">
+<span class="sig-prename descclassname"><span class="pre">src.modelling.active_learning.</span></span><span class="sig-name descname"><span class="pre">find_newest_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/modelling/active_learning.html#find_newest_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.modelling.active_learning.find_newest_model" title="Permalink to this definition">#</a></dt>
+<dd><p>Finds the largest model in the directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String of the name of the larges/newest model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.modelling.active_learning.predict">
+<span class="sig-prename descclassname"><span class="pre">src.modelling.active_learning.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/modelling/active_learning.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.modelling.active_learning.predict" title="Permalink to this definition">#</a></dt>
+<dd><p>Flask api that retrieves an input from doccano and predicts the
+correct label using the largest active learning model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict with “label” as key and predicted label as value</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.modelling.active_learning.train_model">
+<span class="sig-prename descclassname"><span class="pre">src.modelling.active_learning.</span></span><span class="sig-name descname"><span class="pre">train_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/modelling/active_learning.html#train_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.modelling.active_learning.train_model" title="Permalink to this definition">#</a></dt>
+<dd><p>Trains a SVC model using inputted data and parameters and pickles the
+resulting model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.Series</em>) – pd.Series with text data</p></li>
+<li><p><strong>y</strong> (<em>pd.Series</em>) – pd.Series with label data</p></li>
+<li><p><strong>C</strong> (<em>float</em>) – float with C value</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – float with gamma value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NoneType</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
         </article>
@@ -218,23 +263,15 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="eda.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">EDA</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="index.html">
+          
+          <a class="prev-page" href="active_learning_data.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Home</div>
+                <div class="title">ACTIVE LEARNING DATA</div>
                 
               </div>
             </a>
@@ -256,27 +293,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Readme File</a><ul>
-<li><a class="reference internal" href="#sports-article-classification">sports-article-classification</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

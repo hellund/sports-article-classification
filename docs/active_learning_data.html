@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="EDA" href="eda.html" /><link rel="prev" title="Welcome to sports-article-classification!" href="index.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="ACTIVE LEARNING" href="active_learning.html" /><link rel="prev" title="PREPROCESSING" href="preprocessing.html" />
 
     <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
-        <title>Readme File - sports-article-classification 0.0.1 documentation</title>
+        <title>ACTIVE LEARNING DATA - sports-article-classification 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -154,8 +154,8 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">README</a></li>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme_link.html">README</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">DATA:</span></p>
 <ul>
@@ -163,13 +163,13 @@
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">CLUSTERING</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="utils.html">UTILS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sofus_alert.html">SOFUS ALERT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_scraper.html">DATA SCRAPER</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nordskog_data.html">NORDSKOG DATA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="preprocessing.html">PREPROCESSING</a></li>
-<li class="toctree-l1"><a class="reference internal" href="active_learning_data.html">ACTIVE LEARNING DATA</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">ACTIVE LEARNING DATA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="active_learning.html">ACTIVE LEARNING</a></li>
 </ul>
 
@@ -199,18 +199,28 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="readme-file">
-<h1>Readme File<a class="headerlink" href="#readme-file" title="Permalink to this heading">#</a></h1>
-<section id="sports-article-classification">
-<h2>sports-article-classification<a class="headerlink" href="#sports-article-classification" title="Permalink to this heading">#</a></h2>
-<p>Full project of master thesis containing data collection and machine learning of text from sports articles.</p>
-</section>
+          <section id="module-src.data.active_learning_data">
+<span id="active-learning-data"></span><h1>ACTIVE LEARNING DATA<a class="headerlink" href="#module-src.data.active_learning_data" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data.active_learning_data.get_data">
+<span class="sig-prename descclassname"><span class="pre">src.data.active_learning_data.</span></span><span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/active_learning_data.html#get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.active_learning_data.get_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieves data from directory ment for the active learning model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dataframe containing text and label</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
         </article>
@@ -218,23 +228,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="eda.html">
+          <a class="next-page" href="active_learning.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">EDA</div>
+                <div class="title">ACTIVE LEARNING</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="index.html">
+          <a class="prev-page" href="preprocessing.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Home</div>
+                <div class="title">PREPROCESSING</div>
                 
               </div>
             </a>
@@ -256,27 +266,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Readme File</a><ul>
-<li><a class="reference internal" href="#sports-article-classification">sports-article-classification</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

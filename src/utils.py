@@ -10,3 +10,7 @@ def get_project_root() -> str:
     root = Path(__file__).parent.parent
     root = str(root).replace('\\', '/')
     return root
+
+
+if __name__ == '__main__':
+    pass

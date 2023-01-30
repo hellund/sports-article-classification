@@ -22,9 +22,13 @@ Welcome to sports-article-classification!
    :maxdepth: 3
    :caption: Methods:
 
+   UTILS <utils>
+   SOFUS ALERT <sofus_alert>
    DATA SCRAPER <data_scraper>
    NORDSKOG DATA <nordskog_data>
    PREPROCESSING <preprocessing>
+   ACTIVE LEARNING DATA <active_learning_data>
+   ACTIVE LEARNING <active_learning>
 
 
 Indices and tables
