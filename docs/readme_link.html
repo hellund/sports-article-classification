@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -155,7 +155,8 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">README</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Readme File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#sports-article-classification">sports-article-classification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">DATA:</span></p>
 <ul>
@@ -199,7 +200,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -207,9 +208,18 @@
         <article role="main">
           <section id="readme-file">
 <h1>Readme File<a class="headerlink" href="#readme-file" title="Permalink to this heading">#</a></h1>
+</section>
 <section id="sports-article-classification">
-<h2>sports-article-classification<a class="headerlink" href="#sports-article-classification" title="Permalink to this heading">#</a></h2>
+<h1>sports-article-classification<a class="headerlink" href="#sports-article-classification" title="Permalink to this heading">#</a></h1>
 <p>Full project of master thesis containing data collection and machine learning of text from sports articles.</p>
+<section id="project-description">
+<h2>Project Description<a class="headerlink" href="#project-description" title="Permalink to this heading">#</a></h2>
+<p>This project uses a collection of python scripts and notebooks to apply machine learning to the text classification problem of correctly labeling pragraphs from football articles. The project utilzes different techniques such as web scraping, clustering, active learning and doccano to create and annotate a new dataset. The dataset contains all articles written and published on VG.no with the tag football in 2022. The ultimate goal of the project is to showcase the use of Norwegian trained BERT-models on a Norwegian text classifcation problem.</p>
+</section>
+<section id="doccano">
+<h2>Doccano<a class="headerlink" href="#doccano" title="Permalink to this heading">#</a></h2>
+<p>Docanno is used to annotate the text data with ease. It supports multi label annotation and active learning. Active learning can help annotate a large dataset, but must be used with caution and tight supervision.</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/hellund/sports-article-classification/main/images/doccano_example.png"><img alt="Doccano example" src="https://raw.githubusercontent.com/hellund/sports-article-classification/main/images/doccano_example.png" /></a>
 </section>
 </section>
 
@@ -256,27 +266,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Readme File</a><ul>
-<li><a class="reference internal" href="#sports-article-classification">sports-article-classification</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>
