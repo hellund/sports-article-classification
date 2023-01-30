@@ -1,0 +1,7 @@
+[
+    {% for entity in input.label %}
+        {
+            "label": "{{ entity }}"
+        }{% if not loop.last %},{% endif %}
+    {% endfor %}
+]
