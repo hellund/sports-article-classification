@@ -588,7 +588,8 @@ Summary, Summary
 Cluster 10
 ~~~~~~~~~~
 
-Keywords:
+Keywords: Quote/Expert, Quote/Coach, Quote/Feelings, Quote/Transfer,
+Quote/Player, Quote, Quote/Coach, Quote/Summary, Quote
 
 .. code:: ipython3
 
@@ -623,6 +624,12 @@ Keywords:
     
     
 
+Cluster 11
+~~~~~~~~~~
+
+Keywords: Next game, Quote, Quote/Expert, Storytelling, Statement,
+Quote, Transfer/Storytelling, Storytelling, Storytelling
+
 .. code:: ipython3
 
     next_in_cluster_generator()
@@ -655,6 +662,11 @@ Keywords:
     SANDEFJORD (VG) Han har slitt benken og følt seg glemt i hjemlandet. Som Sandefjord-spiller vil Mohamed Fellah (29) bevise for det norske folk at han fortsatt har det i seg. 
     
     
+
+Cluster 12
+~~~~~~~~~~
+
+Keywords: Link x 10
 
 .. code:: ipython3
 
@@ -689,6 +701,12 @@ Keywords:
     
     
 
+CLuster 13
+~~~~~~~~~~
+
+Keywords: Goal, Goal/Substitution, Goal, Player/Storytelling,
+Storytelling/Goal, Debut, Goal, Storytelling, Goal, Gotal/Player
+
 .. code:: ipython3
 
     next_in_cluster_generator()
@@ -720,6 +738,11 @@ Keywords:
     Det var Kings tredje scoring for sesongen, han står også med en målgivende fra før. Med fem målpoeng på de første fem kampene, har den norske spissen fått en strålende start på Premier League-sesongen.  
     
     
+
+Cluster 14
+~~~~~~~~~~
+
+Keywords: Watch the game x 10
 
 .. code:: ipython3
 
@@ -758,6 +781,12 @@ Keywords:
     
     
 
+Cluster 15
+~~~~~~~~~~
+
+Storytelling/Player, Commentary/Chance, Summary, Goal/Storytelling,
+Transfer/Storytelling, Transfer, Score, Statement, Statement
+
 .. code:: ipython3
 
     next_in_cluster_generator()
@@ -789,6 +818,11 @@ Keywords:
     Erling Braut Håland markerte seg mot de meritterte Zenit-forsvarerne, med fart, kraft og teknisk frekke detaljer. 
     
     
+
+Cluster 16
+~~~~~~~~~~
+
+Keywords: Watch the goals x 10
 
 .. code:: ipython3
 
@@ -831,6 +865,11 @@ Keywords:
     
     
 
+Cluster 17
+~~~~~~~~~~
+
+Real madrid x 10
+
 .. code:: ipython3
 
     next_in_cluster_generator()
@@ -863,6 +902,13 @@ Keywords:
     
     
 
+Cluster 18
+~~~~~~~~~~
+
+Keywords: Matchwinner/Table, Matchwinner, Goal/Summary, Watch higlights,
+Next games, Summary, Summary, Summary/Goal, Summary/Storytelling/Player,
+Summary/Goal
+
 .. code:: ipython3
 
     next_in_cluster_generator()
@@ -894,6 +940,11 @@ Keywords:
     Lyon tok sin tredje strake seier i den franske toppdivisjonen søndag med 3–0 borte mot Guingamp. Hegerberg spilte i 73 minutter uten scoring. Eugenie Le Sommer satte alle tre målene for Lyon. 
     
     
+
+Cluster 19
+~~~~~~~~~~
+
+Keywords: Odds x 10
 
 .. code:: ipython3
 
