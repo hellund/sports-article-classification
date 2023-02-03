@@ -1,9 +1,12 @@
 import re
 import pandas as pd
 from src.data.nordskog_data import get_data
+from src.utils import get_project_root
+import nltk
+from nltk.corpus import stopwords
 
 
-class DataPreprocessor:
+class DataPreprocessorNordskog:
     """A class to preprocess data.
 
     Args:
@@ -87,39 +90,101 @@ class DataPreprocessor:
         return data
 
 
-def main() -> None:
-    """Does some test using the DataPreprocessor class and prints out the
-    results.
+class DataPreprocessorHelland:
+    """A class to preprocess data from the football article scraping done by
+    Helland.
 
-    Returns:
-        NoneType
+    Args:
+        text_series (pd.Series): Series with texts that is to be preprocessed
+
+    Attributes:
+        text_series (pd.DataFrame): DataFrame that is to be preprocessed
     """
-    train, test = get_data()
-    data_preprocessor = DataPreprocessor(train)
-    mapped_data_categorical = data_preprocessor.map_nordskog_data()
-    mapped_data_numerical = data_preprocessor.map_nordskog_data(numeric=True)
-    mapped_to_5_categorical = \
-        data_preprocessor.limit_number_of_targets_to_5_and_merge()
-    mapped_to_5_numerical = \
-        data_preprocessor.limit_number_of_targets_to_5_and_merge(numeric=True)
 
-    more_spaceless_data = data_preprocessor.remove_extra_spaces_from_text()
-    paragraph_limited_data = data_preprocessor.remove_paragraphs_over_65_words()
+    def __init__(self, text_series: pd.Series):
+        self.text_series = text_series
 
-    print('Testing of DataPreprocessor \n' +'_'*50)
-    print(mapped_data_categorical['label'].value_counts())
-    print('_'*50)
-    print(mapped_data_numerical['label'].value_counts())
-    print('_'*50)
-    print(mapped_to_5_categorical['label'].value_counts())
-    print('_'*50)
-    print(mapped_to_5_numerical['label'].value_counts())
-    print('_'*50)
-    print(more_spaceless_data['text'].head(5))
-    print('_' * 50)
-    print(f'Shape before 65 cleanse: {train.shape} --> Shape after: '
-          f'{paragraph_limited_data.shape}')
+    def remove_extra_spaces(self) -> pd.Series:
+        """Removes unnecessary whitespaces from the text series attribute.
+
+        Returns:
+            pd.Series: Returns a copy of the text series attribute without
+            extra spaces
+        """
+        self.text_series = self.text_series.map(
+            lambda text: " ".join(str(text).split()))
+        data = self.text_series.copy()
+        return data
+
+    def remove_non_ascii_characters(self):
+        """Removes non ascii characters, but keeps "æøå", from the text
+        series attribute.
+
+        Returns:
+            pd.Series: Returns a copy of the text series attribute with no
+            ascii characters.
+        """
+        self.text_series = self.text_series.map(lambda text: re.sub('(['
+                                                                    '^A-Za-zæøåü–])+',
+                                                                    ' ',
+                                                                    str(text)))
+        data = self.text_series.copy()
+        return data
+
+    def make_lower_cased(self):
+        """Makes all characters lower cased in the text_series attribute.
+
+        Returns:
+            pd.Series: Returns a copy of the text series attribute with all
+            lower cased text.
+        """
+        self.text_series = self.text_series.map(lambda text: str(text).lower())
+
+    @staticmethod
+    def remove_stopwords_from_string(text, stop_words):
+        filtered_text = []
+        for word in text:
+            if word not in stop_words:
+                filtered_text.append(word)
+        return filtered_text
+
+    def remove_stopwords(self):
+        nltk.download('stopwords')
+        stop_words = set(stopwords.words('norwegian'))
+        self.text_series = self.text_series.map(lambda x:
+                                                self.remove_stopwords_from_string(
+                                                    x.split(),
+                                                    stop_words))
+        self.text_series = self.text_series.map(lambda x: ' '.join(x))
+        data = self.text_series.copy()
+        return data
+
+    def preprocess(self):
+        """Applies all preprocessing actions on the text_series attribute.
+
+        Returns:
+            pd.Series: Returns a copy of the text series attribute with all
+            preprocessing steps applied.
+        """
+        self.remove_non_ascii_characters()
+        self.make_lower_cased()
+        self.remove_extra_spaces()
+        self.remove_stopwords()
+        data = self.text_series.copy()
+        return data
+
+
+def make_csv_for_data_annotation():
+    root = get_project_root()
+    article_df = pd.read_csv(root + '/src/data/vg_articles_2022.csv',
+                             encoding='utf-8-sig')
+    paragraphs = article_df[article_df['tag'] == 'p'].copy()
+    paragraphs = paragraphs.loc[:, ['text']].copy().reset_index(drop=True)
+    paragraphs['labels'] = ''
+    paragraphs.to_csv(root + '/src/data/annotation_dataset/vg_article_dataset'
+                             '.csv',
+                      encoding='utf-8-sig')
 
 
 if __name__ == '__main__':
-    main()
+    make_csv_for_data_annotation()
