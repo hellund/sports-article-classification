@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
-        <title>src.modelling.active_learning - sports-article-classification 0.0.1 documentation</title>
+        <title>src.annotation.active_learning - sports-article-classification 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -171,6 +171,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../preprocessing.html">PREPROCESSING</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../active_learning_data.html">ACTIVE LEARNING DATA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../active_learning.html">ACTIVE LEARNING</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doccano.html">DOCCANO</a></li>
 </ul>
 
 </div>
@@ -204,10 +205,10 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for src.modelling.active_learning</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
-<span class="kn">from</span> <span class="nn">src.data.active_learning_data</span> <span class="kn">import</span> <span class="n">get_data</span>
-<span class="kn">from</span> <span class="nn">src.data.preprocessing</span> <span class="kn">import</span> <span class="n">DataPreprocessor</span>
+          <h1>Source code for src.annotation.active_learning</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">src.data.preprocessing</span> <span class="kn">import</span> <span class="n">DataPreprocessorHelland</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
@@ -218,11 +219,13 @@
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MultiLabelBinarizer</span>
 <span class="kn">from</span> <span class="nn">sklearn.multiclass</span> <span class="kn">import</span> <span class="n">OneVsRestClassifier</span>
+<span class="kn">from</span> <span class="nn">src.annotation.doccano</span> <span class="kn">import</span> <span class="n">get_latest_annotated_data</span>
+
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="predict"><a class="viewcode-back" href="../../../active_learning.html#src.modelling.active_learning.predict">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="predict"><a class="viewcode-back" href="../../../active_learning.html#src.annotation.active_learning.predict">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">predict</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Flask api that retrieves an input from doccano and predicts the</span>
 <span class="sd">    correct label using the largest active learning model.</span>
@@ -237,19 +240,22 @@
                                     <span class="n">find_newest_model</span><span class="p">(),</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span>
     <span class="n">loaded_mlb</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;active_learning_models</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;mlb_&#39;</span> <span class="o">+</span>
                                   <span class="n">find_newest_model</span><span class="p">(),</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span>
-
-    <span class="n">pred_labels</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">new_input</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]])</span>
+    <span class="n">preprocessor</span> <span class="o">=</span> <span class="n">DataPreprocessorHelland</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new_input</span><span class="p">))</span>
+    <span class="n">processed_input</span> <span class="o">=</span> <span class="n">preprocessor</span><span class="o">.</span><span class="n">text_series</span>
+    <span class="n">pred_labels</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">processed_input</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]])</span>
     <span class="n">pred_labels</span> <span class="o">=</span> <span class="n">loaded_mlb</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">pred_labels</span><span class="p">)</span>
-    <span class="n">pred_proba</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">([</span><span class="n">new_input</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]])</span>
+
+    <span class="n">pred_proba</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">([</span><span class="n">processed_input</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]])</span>
     <span class="n">prob_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loaded_mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">pred_proba</span><span class="p">[</span><span class="mi">0</span><span class="p">])}</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Predicted labels:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pred_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Probabilites:</span><span class="se">\n</span><span class="si">{</span><span class="n">prob_dict</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Probabilities:</span><span class="se">\n</span><span class="si">{</span><span class="n">prob_dict</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">pred_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span></div>
 
 
-<div class="viewcode-block" id="train_SVC_multilabel_model"><a class="viewcode-back" href="../../../active_learning.html#src.modelling.active_learning.train_SVC_multilabel_model">[docs]</a><span class="k">def</span> <span class="nf">train_SVC_multilabel_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+
+<div class="viewcode-block" id="train_SVC_multilabel_model"><a class="viewcode-back" href="../../../active_learning.html#src.annotation.active_learning.train_SVC_multilabel_model">[docs]</a><span class="k">def</span> <span class="nf">train_SVC_multilabel_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Trains a SVC multi label model using inputted data and parameters and</span>
 <span class="sd">    pickles the resulting model. The pickled model is saved in the</span>
 <span class="sd">    active_learning_models directory with with a multilabelbinarizer object</span>
@@ -264,17 +270,14 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        NoneType</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="p">])</span>
-
     <span class="n">mlb</span> <span class="o">=</span> <span class="n">MultiLabelBinarizer</span><span class="p">()</span>
     <span class="n">mlb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">mlb</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
     <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
-
     <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
                                                         <span class="n">y</span><span class="p">,</span>
-                                                        <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-                                                        <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                                        <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
                                                         <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">OneVsRestClassifier</span><span class="p">(</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span>
@@ -309,7 +312,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------------------------------------------------&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="find_newest_model"><a class="viewcode-back" href="../../../active_learning.html#src.modelling.active_learning.find_newest_model">[docs]</a><span class="k">def</span> <span class="nf">find_newest_model</span><span class="p">():</span>
+<div class="viewcode-block" id="find_newest_model"><a class="viewcode-back" href="../../../active_learning.html#src.annotation.active_learning.find_newest_model">[docs]</a><span class="k">def</span> <span class="nf">find_newest_model</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Finds the largest model in the directory.</span>
 
 <span class="sd">    Returns:</span>
@@ -317,7 +320,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">get_project_root</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">root</span> <span class="o">+</span> <span class="s1">&#39;/src/modelling/active_learning_models&#39;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">root</span> <span class="o">+</span> <span class="s1">&#39;/src/annotation/active_learning_models&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.pkl&quot;</span><span class="p">):</span>
             <span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="n">splitted_models</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">models</span><span class="p">]</span>
@@ -327,25 +330,44 @@
     <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;active_learning_ml_model_</span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="si">}</span><span class="s1">.pkl&#39;</span></div>
 
 
-<div class="viewcode-block" id="run_train_ml_model"><a class="viewcode-back" href="../../../active_learning.html#src.modelling.active_learning.run_train_ml_model">[docs]</a><span class="k">def</span> <span class="nf">run_train_ml_model</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Trains a SVC multi label model using Nordskog data and preprocessing</span>
+<div class="viewcode-block" id="run_train_ml_model"><a class="viewcode-back" href="../../../active_learning.html#src.annotation.active_learning.run_train_ml_model">[docs]</a><span class="k">def</span> <span class="nf">run_train_ml_model</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Trains a SVC multi label model using the latest annotated data. All</span>
+<span class="sd">    labels only occurring once are removed.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        NoneType</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">train</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="n">get_latest_annotated_data</span><span class="p">()</span>
+    <span class="n">preprocessor</span> <span class="o">=</span> <span class="n">DataPreprocessorHelland</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+    <span class="n">train</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preprocessor</span><span class="o">.</span><span class="n">preprocess</span><span class="p">()</span>
+    <span class="n">exploded_train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+    <span class="n">individual_label_count</span> <span class="o">=</span> <span class="n">exploded_train</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="n">labels_with_enough_samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">individual_label_count</span> <span class="k">if</span>
+                                  <span class="n">individual_label_count</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">]</span>
 
-    <span class="n">preprocessor</span> <span class="o">=</span> <span class="n">DataPreprocessor</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
-    <span class="n">preprocessor</span><span class="o">.</span><span class="n">remove_paragraphs_over_65_words</span><span class="p">()</span>
-    <span class="n">preprocessor</span><span class="o">.</span><span class="n">remove_paragraphs_over_65_words</span><span class="p">()</span>
-    <span class="n">train</span> <span class="o">=</span> <span class="n">preprocessor</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+    <span class="n">trimmed_data</span> <span class="o">=</span> <span class="n">exploded_train</span><span class="p">[</span><span class="n">exploded_train</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span>
+        <span class="n">labels_with_enough_samples</span><span class="p">)]</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="n">trimmed_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">()})</span>
+
     <span class="n">train_SVC_multilabel_model</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span> <span class="n">C</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span></div>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">run_train_ml_model</span><span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;Trains a new SVC multi label model with the latest dataset from </span>
+<span class="sd">    doccano annotation and saves it to active_learning_models if __name__ == </span>
+<span class="sd">    &quot;__main__&quot;.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        NoneType</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+<span class="c1"># if __name__ == &#39;__main__&#39;:</span>
+<span class="c1">#     #main()</span>
+
 </pre></div>
         </article>
       </div>

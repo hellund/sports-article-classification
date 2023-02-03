@@ -171,6 +171,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../preprocessing.html">PREPROCESSING</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../active_learning_data.html">ACTIVE LEARNING DATA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../active_learning.html">ACTIVE LEARNING</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doccano.html">DOCCANO</a></li>
 </ul>
 
 </div>
@@ -260,7 +261,7 @@
             <span class="nb">format</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>
         <span class="n">html</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="n">bs_object</span> <span class="o">=</span> <span class="n">soup</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">bs_object</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;nolinkstyles hyperion-css-1s8spa1&#39;</span><span class="p">}):</span>
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">bs_object</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;nolinkstyles hyperion-css-hu5bcj&#39;</span><span class="p">}):</span>
             <span class="n">relevant_articles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">tag</span><span class="p">[</span><span class="s1">&#39;aria-label&#39;</span><span class="p">],</span> <span class="s1">&#39;https://vg.no&#39;</span> <span class="o">+</span> <span class="n">tag</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]])</span>
     <span class="n">df_relevant_articles</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">relevant_articles</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
@@ -360,8 +361,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">date_frame</span> <span class="o">=</span> <span class="n">create_date_interval_df</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2023</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">url_df</span> <span class="o">=</span> <span class="n">find_relevant_articles</span><span class="p">(</span><span class="n">date_frame</span><span class="p">)</span>
+    <span class="n">sofus_alert</span><span class="p">()</span>
     <span class="n">article_df</span> <span class="o">=</span> <span class="n">scrape_articles_from_url_df</span><span class="p">(</span><span class="n">url_df</span><span class="p">)</span>
-    <span class="n">convert_df_to_csv</span><span class="p">(</span><span class="n">article_df</span><span class="p">,</span> <span class="s1">&#39;vg_articles_2022.csv&#39;</span><span class="p">)</span>
+    <span class="n">sofus_alert</span><span class="p">()</span>
+    <span class="n">convert_df_to_csv</span><span class="p">(</span><span class="n">article_df</span><span class="p">,</span> <span class="s1">&#39;vg_football_articles_2022.csv&#39;</span><span class="p">)</span>
     <span class="c1"># article_df = pd.read_csv(&#39;vg_articles_2022.csv&#39;, encoding=&#39;utf-8-sig&#39;)</span>
     <span class="n">sofus_alert</span><span class="p">()</span></div>
 

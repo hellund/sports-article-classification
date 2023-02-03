@@ -1,5 +1,5 @@
 ACTIVE LEARNING
 ===============
 
-.. automodule:: src.modelling.active_learning
+.. automodule:: src.annotation.active_learning
     :members:

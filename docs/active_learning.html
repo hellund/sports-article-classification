@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="ACTIVE LEARNING DATA" href="active_learning_data.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="DOCCANO" href="doccano.html" /><link rel="prev" title="ACTIVE LEARNING DATA" href="active_learning_data.html" />
 
     <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
         <title>ACTIVE LEARNING - sports-article-classification 0.0.1 documentation</title>
@@ -172,6 +172,7 @@
 <li class="toctree-l1"><a class="reference internal" href="preprocessing.html">PREPROCESSING</a></li>
 <li class="toctree-l1"><a class="reference internal" href="active_learning_data.html">ACTIVE LEARNING DATA</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">ACTIVE LEARNING</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doccano.html">DOCCANO</a></li>
 </ul>
 
 </div>
@@ -206,11 +207,11 @@
           </label>
         </div>
         <article role="main">
-          <section id="module-src.modelling.active_learning">
-<span id="active-learning"></span><h1>ACTIVE LEARNING<a class="headerlink" href="#module-src.modelling.active_learning" title="Permalink to this heading">#</a></h1>
+          <section id="module-src.annotation.active_learning">
+<span id="active-learning"></span><h1>ACTIVE LEARNING<a class="headerlink" href="#module-src.annotation.active_learning" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="src.modelling.active_learning.find_newest_model">
-<span class="sig-prename descclassname"><span class="pre">src.modelling.active_learning.</span></span><span class="sig-name descname"><span class="pre">find_newest_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/modelling/active_learning.html#find_newest_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.modelling.active_learning.find_newest_model" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="src.annotation.active_learning.find_newest_model">
+<span class="sig-prename descclassname"><span class="pre">src.annotation.active_learning.</span></span><span class="sig-name descname"><span class="pre">find_newest_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/annotation/active_learning.html#find_newest_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.annotation.active_learning.find_newest_model" title="Permalink to this definition">#</a></dt>
 <dd><p>Finds the largest model in the directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -223,8 +224,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.modelling.active_learning.predict">
-<span class="sig-prename descclassname"><span class="pre">src.modelling.active_learning.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/modelling/active_learning.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.modelling.active_learning.predict" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="src.annotation.active_learning.predict">
+<span class="sig-prename descclassname"><span class="pre">src.annotation.active_learning.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/annotation/active_learning.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.annotation.active_learning.predict" title="Permalink to this definition">#</a></dt>
 <dd><p>Flask api that retrieves an input from doccano and predicts the
 correct label using the largest active learning model.</p>
 <dl class="field-list simple">
@@ -238,9 +239,10 @@ correct label using the largest active learning model.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.modelling.active_learning.run_train_ml_model">
-<span class="sig-prename descclassname"><span class="pre">src.modelling.active_learning.</span></span><span class="sig-name descname"><span class="pre">run_train_ml_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/modelling/active_learning.html#run_train_ml_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.modelling.active_learning.run_train_ml_model" title="Permalink to this definition">#</a></dt>
-<dd><p>Trains a SVC multi label model using Nordskog data and preprocessing</p>
+<dt class="sig sig-object py" id="src.annotation.active_learning.run_train_ml_model">
+<span class="sig-prename descclassname"><span class="pre">src.annotation.active_learning.</span></span><span class="sig-name descname"><span class="pre">run_train_ml_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/annotation/active_learning.html#run_train_ml_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.annotation.active_learning.run_train_ml_model" title="Permalink to this definition">#</a></dt>
+<dd><p>Trains a SVC multi label model using the latest annotated data. All
+labels only occurring once are removed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>NoneType</p>
@@ -249,8 +251,8 @@ correct label using the largest active learning model.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.modelling.active_learning.train_SVC_multilabel_model">
-<span class="sig-prename descclassname"><span class="pre">src.modelling.active_learning.</span></span><span class="sig-name descname"><span class="pre">train_SVC_multilabel_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/modelling/active_learning.html#train_SVC_multilabel_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.modelling.active_learning.train_SVC_multilabel_model" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="src.annotation.active_learning.train_SVC_multilabel_model">
+<span class="sig-prename descclassname"><span class="pre">src.annotation.active_learning.</span></span><span class="sig-name descname"><span class="pre">train_SVC_multilabel_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/annotation/active_learning.html#train_SVC_multilabel_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.annotation.active_learning.train_SVC_multilabel_model" title="Permalink to this definition">#</a></dt>
 <dd><p>Trains a SVC multi label model using inputted data and parameters and
 pickles the resulting model. The pickled model is saved in the
 active_learning_models directory with with a multilabelbinarizer object
@@ -277,7 +279,15 @@ for mapping the model predictions back to strings.</p>
       <footer>
         
         <div class="related-pages">
-          
+          <a class="next-page" href="doccano.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">DOCCANO</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
           <a class="prev-page" href="active_learning_data.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">

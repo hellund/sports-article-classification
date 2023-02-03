@@ -172,6 +172,7 @@
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">PREPROCESSING</a></li>
 <li class="toctree-l1"><a class="reference internal" href="active_learning_data.html">ACTIVE LEARNING DATA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="active_learning.html">ACTIVE LEARNING</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doccano.html">DOCCANO</a></li>
 </ul>
 
 </div>
@@ -209,17 +210,18 @@
           <section id="module-src.data.preprocessing">
 <span id="preprocessing"></span><h1>PREPROCESSING<a class="headerlink" href="#module-src.data.preprocessing" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.data.preprocessing.</span></span><span class="sig-name descname"><span class="pre">DataPreprocessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessor" title="Permalink to this definition">#</a></dt>
-<dd><p>A class to preprocess data.</p>
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorHelland">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.data.preprocessing.</span></span><span class="sig-name descname"><span class="pre">DataPreprocessorHelland</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_series</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorHelland"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorHelland" title="Permalink to this definition">#</a></dt>
+<dd><p>A class to preprocess data from the football article scraping done by
+Helland.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>pd.DataFrame</em>) – DataFrame that is to be preprocessed</p>
+<dd class="field-odd"><p><strong>text_series</strong> (<em>pd.Series</em>) – Series with texts that is to be preprocessed</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessor.data">
-<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#src.data.preprocessing.DataPreprocessor.data" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorHelland.text_series">
+<span class="sig-name descname"><span class="pre">text_series</span></span><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorHelland.text_series" title="Permalink to this definition">#</a></dt>
 <dd><p>DataFrame that is to be preprocessed</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -229,8 +231,126 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessor.limit_number_of_targets_to_5_and_merge">
-<span class="sig-name descname"><span class="pre">limit_number_of_targets_to_5_and_merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numeric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessor.limit_number_of_targets_to_5_and_merge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessor.limit_number_of_targets_to_5_and_merge" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorHelland.make_lower_cased">
+<span class="sig-name descname"><span class="pre">make_lower_cased</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorHelland.make_lower_cased"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorHelland.make_lower_cased" title="Permalink to this definition">#</a></dt>
+<dd><p>Makes all characters lower cased in the text_series attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns a copy of the text series attribute with all
+lower cased text.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorHelland.preprocess">
+<span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorHelland.preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorHelland.preprocess" title="Permalink to this definition">#</a></dt>
+<dd><p>Applies all preprocessing actions on the text_series attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns a copy of the text series attribute with all
+preprocessing steps applied.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorHelland.remove_extra_spaces">
+<span class="sig-name descname"><span class="pre">remove_extra_spaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorHelland.remove_extra_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorHelland.remove_extra_spaces" title="Permalink to this definition">#</a></dt>
+<dd><p>Removes unnecessary whitespaces from the text series attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns a copy of the text series attribute without
+extra spaces</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorHelland.remove_non_ascii_characters">
+<span class="sig-name descname"><span class="pre">remove_non_ascii_characters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorHelland.remove_non_ascii_characters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorHelland.remove_non_ascii_characters" title="Permalink to this definition">#</a></dt>
+<dd><p>Removes non ascii characters, but keeps “æøå”, from the text
+series attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns a copy of the text series attribute with no
+ascii characters.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorHelland.remove_stopwords">
+<span class="sig-name descname"><span class="pre">remove_stopwords</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorHelland.remove_stopwords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorHelland.remove_stopwords" title="Permalink to this definition">#</a></dt>
+<dd><p>Initiates the removal of stopwords from class attribute text_series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns a copy of the text series attribute with all
+stopwords removed</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorHelland.remove_stopwords_from_string">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_stopwords_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorHelland.remove_stopwords_from_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorHelland.remove_stopwords_from_string" title="Permalink to this definition">#</a></dt>
+<dd><p>Removes stopwords from a list of words.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of words that is going to be cleaned.</p></li>
+<li><p><strong>stop_words</strong> (<em>Set</em><em>[</em><em>str</em><em>]</em>) – Set of words that are going to be removed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of words removed of stopwords.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorNordskog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.data.preprocessing.</span></span><span class="sig-name descname"><span class="pre">DataPreprocessorNordskog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorNordskog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorNordskog" title="Permalink to this definition">#</a></dt>
+<dd><p>A class to preprocess data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>pd.DataFrame</em>) – DataFrame that is to be preprocessed</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorNordskog.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorNordskog.data" title="Permalink to this definition">#</a></dt>
+<dd><p>DataFrame that is to be preprocessed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorNordskog.limit_number_of_targets_to_5_and_merge">
+<span class="sig-name descname"><span class="pre">limit_number_of_targets_to_5_and_merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numeric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorNordskog.limit_number_of_targets_to_5_and_merge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorNordskog.limit_number_of_targets_to_5_and_merge" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that limits the targets to only being the top 5 most
 frequent targets and merging the others to the most suited target.</p>
 <dl class="field-list simple">
@@ -247,8 +367,8 @@ frequent targets and merging the others to the most suited target.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessor.map_nordskog_data">
-<span class="sig-name descname"><span class="pre">map_nordskog_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numeric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessor.map_nordskog_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessor.map_nordskog_data" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorNordskog.map_nordskog_data">
+<span class="sig-name descname"><span class="pre">map_nordskog_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numeric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorNordskog.map_nordskog_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorNordskog.map_nordskog_data" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that maps Nordskog training data to correct labels with
 option of making the labels numeric.</p>
 <dl class="field-list simple">
@@ -260,8 +380,8 @@ option of making the labels numeric.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessor.remove_extra_spaces_from_text">
-<span class="sig-name descname"><span class="pre">remove_extra_spaces_from_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessor.remove_extra_spaces_from_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessor.remove_extra_spaces_from_text" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorNordskog.remove_extra_spaces_from_text">
+<span class="sig-name descname"><span class="pre">remove_extra_spaces_from_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorNordskog.remove_extra_spaces_from_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorNordskog.remove_extra_spaces_from_text" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that removes extra spaces from data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -274,8 +394,8 @@ option of making the labels numeric.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessor.remove_paragraphs_over_65_words">
-<span class="sig-name descname"><span class="pre">remove_paragraphs_over_65_words</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessor.remove_paragraphs_over_65_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessor.remove_paragraphs_over_65_words" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="src.data.preprocessing.DataPreprocessorNordskog.remove_paragraphs_over_65_words">
+<span class="sig-name descname"><span class="pre">remove_paragraphs_over_65_words</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#DataPreprocessorNordskog.remove_paragraphs_over_65_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.DataPreprocessorNordskog.remove_paragraphs_over_65_words" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that removes paragraphs over 65 words from data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -290,10 +410,9 @@ option of making the labels numeric.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.data.preprocessing.main">
-<span class="sig-prename descclassname"><span class="pre">src.data.preprocessing.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/data/preprocessing.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.main" title="Permalink to this definition">#</a></dt>
-<dd><p>Does some test using the DataPreprocessor class and prints out the
-results.</p>
+<dt class="sig sig-object py" id="src.data.preprocessing.make_csv_for_data_annotation">
+<span class="sig-prename descclassname"><span class="pre">src.data.preprocessing.</span></span><span class="sig-name descname"><span class="pre">make_csv_for_data_annotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/data/preprocessing.html#make_csv_for_data_annotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.data.preprocessing.make_csv_for_data_annotation" title="Permalink to this definition">#</a></dt>
+<dd><p>Creates the original dataset for annotation from the scraped articles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>NoneType</p>

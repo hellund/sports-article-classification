@@ -29,7 +29,7 @@ Welcome to sports-article-classification!
    PREPROCESSING <preprocessing>
    ACTIVE LEARNING DATA <active_learning_data>
    ACTIVE LEARNING <active_learning>
-
+   DOCCANO  <doccano>
 
 Indices and tables
 ==================
