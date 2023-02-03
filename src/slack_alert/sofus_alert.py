@@ -1,5 +1,6 @@
 import slack
 import configparser
+from src.utils import get_project_root
 
 
 def sofus_alert() -> None:
@@ -9,15 +10,17 @@ def sofus_alert() -> None:
         NoneType
     """
     try:
+        root = get_project_root()
         config = configparser.ConfigParser()
-        config.read('my_config.ini')
+        config.read(root + '/src/slack_alert/my_config.ini')
         token = config['slack']['TOKEN']
         slack_client = slack.WebClient(token=token)
         slack_client.chat_postMessage(channel='#pythonalert', text='Script is '
                                                                    'finished')
-    except:
-        pass
+        print('Sofus has sent an alert - Check slack!')
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':
-    pass
+    sofus_alert()
