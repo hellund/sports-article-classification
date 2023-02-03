@@ -4,7 +4,7 @@ from src.data.nordskog_data import get_data
 from src.utils import get_project_root
 import nltk
 from nltk.corpus import stopwords
-
+from typing import List, Set
 
 class DataPreprocessorNordskog:
     """A class to preprocess data.
@@ -141,7 +141,16 @@ class DataPreprocessorHelland:
         self.text_series = self.text_series.map(lambda text: str(text).lower())
 
     @staticmethod
-    def remove_stopwords_from_string(text, stop_words):
+    def remove_stopwords_from_string(text: List[str], stop_words: Set[str]):
+        """Removes stopwords from a list of words.
+
+        Args:
+            text (List[str]): List of words that is going to be cleaned.
+            stop_words (Set[str]): Set of words that are going to be removed.
+
+        Returns:
+            List[str]: List of words removed of stopwords.
+        """
         filtered_text = []
         for word in text:
             if word not in stop_words:
@@ -149,6 +158,12 @@ class DataPreprocessorHelland:
         return filtered_text
 
     def remove_stopwords(self):
+        """Initiates the removal of stopwords from class attribute text_series.
+
+        Returns:
+            pd.Series: Returns a copy of the text series attribute with all
+            stopwords removed
+        """
         nltk.download('stopwords')
         stop_words = set(stopwords.words('norwegian'))
         self.text_series = self.text_series.map(lambda x:
@@ -175,6 +190,11 @@ class DataPreprocessorHelland:
 
 
 def make_csv_for_data_annotation():
+    """Creates the original dataset for annotation from the scraped articles.
+
+    Returns:
+        NoneType
+    """
     root = get_project_root()
     article_df = pd.read_csv(root + '/src/data/vg_articles_2022.csv',
                              encoding='utf-8-sig')
