@@ -53,7 +53,7 @@ def find_relevant_articles(date_frame: pd.DataFrame) -> pd.DataFrame:
             format(row['year'], row['month'], row['day'], row['time'])
         html = requests.get(url)
         bs_object = soup(html.content, 'lxml')
-        for tag in bs_object.findAll('a', {'class': 'nolinkstyles hyperion-css-1s8spa1'}):
+        for tag in bs_object.findAll('a', {'class': 'nolinkstyles hyperion-css-hu5bcj'}):
             relevant_articles.append(
                 [tag['aria-label'], 'https://vg.no' + tag['href'], row['date']])
     df_relevant_articles = pd.DataFrame(relevant_articles, columns=[
@@ -153,8 +153,10 @@ def main() -> None:
     """
     date_frame = create_date_interval_df(2022, 1, 1, 2023, 1, 1)
     url_df = find_relevant_articles(date_frame)
+    sofus_alert()
     article_df = scrape_articles_from_url_df(url_df)
-    convert_df_to_csv(article_df, 'vg_articles_2022.csv')
+    sofus_alert()
+    convert_df_to_csv(article_df, 'vg_football_articles_2022.csv')
     # article_df = pd.read_csv('vg_articles_2022.csv', encoding='utf-8-sig')
     sofus_alert()
 
