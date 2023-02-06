@@ -9,3 +9,8 @@ This project uses a collection of python scripts and notebooks to apply machine 
 Docanno is used to annotate the text data with ease. It supports multi label annotation and active learning. Active learning can help annotate a large dataset, but must be used with caution and tight supervision.
 ![Doccano example](https://raw.githubusercontent.com/hellund/sports-article-classification/main/images/doccano_example.png)
 
+
+## Labels
+The decision of which labels to include is tough. This hierarchy helps displaying the though process of which labels are to be inbcluded in the annotation of the dataset. The goal is to be able to showcase the versatility of transformer models. Labels from different levels of information have been chosen. In this case from level 2, 3 and 4 as shown in the hiearchy below. Since "Game action" can be aggregated from level 4, it has not been included in the annotation. 
+![Labeling hierarchy](https://raw.githubusercontent.com/hellund/sports-article-classification/main/images/label_hierarchy.drawio.png)
+
