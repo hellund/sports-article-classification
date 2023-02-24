@@ -59,7 +59,7 @@ def get_latest_annotated_data() -> pd.DataFrame:
     try:
         df = pd.read_csv(root +
                          '/src/data/annotation_dataset'
-                         '/vg_article_annotated_dataset '
+                         '/vg_article_annotated_dataset'
                          '.csv',
                          encoding='utf-8-sig')
     except EmptyDataError:
