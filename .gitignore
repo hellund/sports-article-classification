@@ -134,3 +134,6 @@ dmypy.json
 
 # Personal
 *.ini
+
+# Annotation models must be added manually
+src/annotation/active_learning_models
