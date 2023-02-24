@@ -125,7 +125,7 @@ class DataPreprocessorHelland:
             ascii characters.
         """
         self.text_series = self.text_series.map(lambda text: re.sub('(['
-                                                                    '^A-Za-zæøåü–])+',
+                                                                    '^A-Za-zæøåüé–])+',
                                                                     ' ',
                                                                     str(text)))
         data = self.text_series.copy()
@@ -164,7 +164,10 @@ class DataPreprocessorHelland:
             pd.Series: Returns a copy of the text series attribute with all
             stopwords removed
         """
-        nltk.download('stopwords')
+        try:
+            nltk.data.find('corpora/stopwords')
+        except LookupError:
+            nltk.download('stopwords')
         stop_words = set(stopwords.words('norwegian'))
         self.text_series = self.text_series.map(lambda x:
                                                 self.remove_stopwords_from_string(
@@ -181,8 +184,8 @@ class DataPreprocessorHelland:
             pd.Series: Returns a copy of the text series attribute with all
             preprocessing steps applied.
         """
-        self.remove_non_ascii_characters()
         self.make_lower_cased()
+        self.remove_non_ascii_characters()
         self.remove_extra_spaces()
         self.remove_stopwords()
         data = self.text_series.copy()
