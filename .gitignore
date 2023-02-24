@@ -137,3 +137,9 @@ dmypy.json
 
 # Annotation models must be added manually
 src/annotation/active_learning_models
+
+# Temporary files to not be included
+src/data/active_learning_VG_data.json
+src/data/helland_data_preprocessing.ipynb
+src/data/vg_football_articles_2022.csv
+
