@@ -28,6 +28,7 @@ def predict():
         dict: Dict with "label" as key and predicted label as value
     """
     new_input = request.get_json()
+    print(f'Model: {find_newest_model()}')
     print('_' * 85 + '\n' + 'Text:\n' + f'{new_input["text"]}\n')
 
     loaded_model = pickle.load(open('active_learning_models\\' +
@@ -48,7 +49,13 @@ def predict():
     print(f'Probabilities:')
     for key in prob_dict.keys():
         print(f'{key}: {prob_dict[key]}')
+
+    print('\nMost likely:')
+    for key in prob_dict.keys():
+        if prob_dict[key] > 0.25:
+            print(f'{key}: {prob_dict[key]}')
     print('\n')
+
     return {'label': pred_labels[0]}
 
 
