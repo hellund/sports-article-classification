@@ -19,6 +19,14 @@ Welcome to sports-article-classification!
    EDA v2 <eda_v2>
    CLUSTERING <clustering>
    
+
+.. toctree::
+   :maxdepth: 2
+   :caption: MODELS:
+   
+   MULTI-LABEL BERT <multi_label_bert_model>
+
+
 .. toctree::
    :maxdepth: 3
    :caption: Methods:
