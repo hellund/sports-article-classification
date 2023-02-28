@@ -160,6 +160,7 @@
 <p class="caption" role="heading"><span class="caption-text">DATA:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../eda.html">EDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../eda_v2.html">EDA v2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../clustering.html">CLUSTERING</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
@@ -333,7 +334,7 @@
 <span class="sd">            ascii characters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text_series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_series</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">text</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;([&#39;</span>
-                                                                    <span class="s1">&#39;^A-Za-zæøåü–])+&#39;</span><span class="p">,</span>
+                                                                    <span class="s1">&#39;^A-Za-zæøåüé–])+&#39;</span><span class="p">,</span>
                                                                     <span class="s1">&#39; &#39;</span><span class="p">,</span>
                                                                     <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)))</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -372,7 +373,10 @@
 <span class="sd">            pd.Series: Returns a copy of the text series attribute with all</span>
 <span class="sd">            stopwords removed</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">nltk</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;corpora/stopwords&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">LookupError</span><span class="p">:</span>
+            <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
         <span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;norwegian&#39;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text_series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_series</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span>
                                                 <span class="bp">self</span><span class="o">.</span><span class="n">remove_stopwords_from_string</span><span class="p">(</span>
@@ -389,8 +393,8 @@
 <span class="sd">            pd.Series: Returns a copy of the text series attribute with all</span>
 <span class="sd">            preprocessing steps applied.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">remove_non_ascii_characters</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">make_lower_cased</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_non_ascii_characters</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remove_extra_spaces</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remove_stopwords</span><span class="p">()</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>

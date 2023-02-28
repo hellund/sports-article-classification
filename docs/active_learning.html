@@ -161,6 +161,7 @@
 <p class="caption" role="heading"><span class="caption-text">DATA:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="eda.html">EDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eda_v2.html">EDA v2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">CLUSTERING</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
@@ -224,10 +225,25 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="src.annotation.active_learning.main">
+<span class="sig-prename descclassname"><span class="pre">src.annotation.active_learning.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/annotation/active_learning.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.annotation.active_learning.main" title="Permalink to this definition">#</a></dt>
+<dd><p>Trains a new SVC multi label model with the latest dataset from
+doccano annotation and saves it to active_learning_models if __name__ ==
+“__main__”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NoneType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="src.annotation.active_learning.predict">
 <span class="sig-prename descclassname"><span class="pre">src.annotation.active_learning.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/annotation/active_learning.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.annotation.active_learning.predict" title="Permalink to this definition">#</a></dt>
 <dd><p>Flask api that retrieves an input from doccano and predicts the
-correct label using the largest active learning model.</p>
+correct label using the largest active learning model and chosen
+preprocessing. The multi label binarizer is fetched and used to output
+labels as strings.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Dict with “label” as key and predicted label as value</p>
@@ -253,10 +269,13 @@ labels only occurring once are removed.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.annotation.active_learning.train_SVC_multilabel_model">
 <span class="sig-prename descclassname"><span class="pre">src.annotation.active_learning.</span></span><span class="sig-name descname"><span class="pre">train_SVC_multilabel_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/annotation/active_learning.html#train_SVC_multilabel_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.annotation.active_learning.train_SVC_multilabel_model" title="Permalink to this definition">#</a></dt>
-<dd><p>Trains a SVC multi label model using inputted data and parameters and
-pickles the resulting model. The pickled model is saved in the
-active_learning_models directory with with a multilabelbinarizer object
-for mapping the model predictions back to strings.</p>
+<dd><p>Trains a Binary Relevance SVC multi label model using inputted data
+and parameters and pickles the resulting model. The pickled model is
+saved in the active_learning_models directory with with a
+multilabelbinarizer object for mapping the model predictions back to
+strings. The inputted data is vectorized and inverse vectorized for the
+iterative_train_test_split from skmultilearn to work and to be compatible
+with new texts.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

@@ -160,6 +160,7 @@
 <p class="caption" role="heading"><span class="caption-text">DATA:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../eda.html">EDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../eda_v2.html">EDA v2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../clustering.html">CLUSTERING</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
@@ -209,7 +210,6 @@
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
 <span class="kn">from</span> <span class="nn">src.data.preprocessing</span> <span class="kn">import</span> <span class="n">DataPreprocessorHelland</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -218,9 +218,10 @@
 <span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MultiLabelBinarizer</span>
-<span class="kn">from</span> <span class="nn">sklearn.multiclass</span> <span class="kn">import</span> <span class="n">OneVsRestClassifier</span>
 <span class="kn">from</span> <span class="nn">src.annotation.doccano</span> <span class="kn">import</span> <span class="n">get_latest_annotated_data</span>
-
+<span class="kn">from</span> <span class="nn">skmultilearn.problem_transform</span> <span class="kn">import</span> <span class="n">BinaryRelevance</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">skmultilearn.model_selection</span> <span class="kn">import</span> <span class="n">iterative_train_test_split</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -228,12 +229,15 @@
 <div class="viewcode-block" id="predict"><a class="viewcode-back" href="../../../active_learning.html#src.annotation.active_learning.predict">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">predict</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Flask api that retrieves an input from doccano and predicts the</span>
-<span class="sd">    correct label using the largest active learning model.</span>
+<span class="sd">    correct label using the largest active learning model and chosen</span>
+<span class="sd">    preprocessing. The multi label binarizer is fetched and used to output</span>
+<span class="sd">    labels as strings.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dict: Dict with &quot;label&quot; as key and predicted label as value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">new_input</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Model: </span><span class="si">{</span><span class="n">find_newest_model</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;_&#39;</span> <span class="o">*</span> <span class="mi">85</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;Text:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">new_input</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;active_learning_models</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span>
@@ -241,25 +245,37 @@
     <span class="n">loaded_mlb</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;active_learning_models</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;mlb_&#39;</span> <span class="o">+</span>
                                   <span class="n">find_newest_model</span><span class="p">(),</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span>
     <span class="n">preprocessor</span> <span class="o">=</span> <span class="n">DataPreprocessorHelland</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new_input</span><span class="p">))</span>
+    <span class="n">preprocessor</span><span class="o">.</span><span class="n">preprocess</span><span class="p">()</span>
     <span class="n">processed_input</span> <span class="o">=</span> <span class="n">preprocessor</span><span class="o">.</span><span class="n">text_series</span>
     <span class="n">pred_labels</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">processed_input</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]])</span>
     <span class="n">pred_labels</span> <span class="o">=</span> <span class="n">loaded_mlb</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">pred_labels</span><span class="p">)</span>
 
     <span class="n">pred_proba</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">([</span><span class="n">processed_input</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]])</span>
-    <span class="n">prob_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loaded_mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">pred_proba</span><span class="p">[</span><span class="mi">0</span><span class="p">])}</span>
+    <span class="n">prob_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span>
+                 <span class="nb">zip</span><span class="p">(</span><span class="n">loaded_mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">pred_proba</span><span class="o">.</span><span class="n">toarray</span><span class="p">()[</span><span class="mi">0</span><span class="p">])}</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Predicted labels:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pred_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Probabilities:</span><span class="se">\n</span><span class="si">{</span><span class="n">prob_dict</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Probabilities:&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">prob_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">prob_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Most likely:&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">prob_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">prob_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.25</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">prob_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">pred_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span></div>
 
 
-
 <div class="viewcode-block" id="train_SVC_multilabel_model"><a class="viewcode-back" href="../../../active_learning.html#src.annotation.active_learning.train_SVC_multilabel_model">[docs]</a><span class="k">def</span> <span class="nf">train_SVC_multilabel_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Trains a SVC multi label model using inputted data and parameters and</span>
-<span class="sd">    pickles the resulting model. The pickled model is saved in the</span>
-<span class="sd">    active_learning_models directory with with a multilabelbinarizer object</span>
-<span class="sd">    for mapping the model predictions back to strings.</span>
+    <span class="sd">&quot;&quot;&quot;Trains a Binary Relevance SVC multi label model using inputted data</span>
+<span class="sd">    and parameters and pickles the resulting model. The pickled model is</span>
+<span class="sd">    saved in the active_learning_models directory with with a</span>
+<span class="sd">    multilabelbinarizer object for mapping the model predictions back to</span>
+<span class="sd">    strings. The inputted data is vectorized and inverse vectorized for the</span>
+<span class="sd">    iterative_train_test_split from skmultilearn to work and to be compatible</span>
+<span class="sd">    with new texts.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        X (pd.Series): pd.Series with text data</span>
@@ -274,42 +290,54 @@
     <span class="n">mlb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">mlb</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
-    <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
-    <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
-                                                        <span class="n">y</span><span class="p">,</span>
-                                                        <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                                                        <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="n">model</span> <span class="o">=</span> <span class="n">OneVsRestClassifier</span><span class="p">(</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span>
-                                    <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">))</span>
+    <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+    <span class="n">X_vectorized</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">X_vectorized</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">iterative_train_test_split</span><span class="p">(</span><span class="n">X_vectorized</span><span class="p">,</span>
+                                                                  <span class="n">y</span><span class="p">,</span>
+                                                                  <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+    <span class="n">x_train</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+    <span class="n">x_test</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+    <span class="n">x_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
+    <span class="n">x_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">BinaryRelevance</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span>
+                                           <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">),</span>
+                            <span class="n">require_dense</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">vectorizer</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
-    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;active_learning_ml_model_</span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">.pkl&#39;</span>
-    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;active_learning_models</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
-    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">mlb</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;active_learning_models</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;mlb_&#39;</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
-    <span class="c1"># Predict class labels on training data</span>
     <span class="n">pred_labels_tr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
-    <span class="c1"># Predict class labels on a test data</span>
     <span class="n">pred_labels_te</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="n">mlb</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">pred_labels_tr</span><span class="p">))</span>
 
-    <span class="c1"># Use score method to get accuracy of the model</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----- Evaluation on Test Data -----&#39;</span><span class="p">)</span>
     <span class="n">score_te</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy Score: &#39;</span><span class="p">,</span> <span class="n">score_te</span><span class="p">)</span>
-    <span class="c1"># Look at classification report to evaluate the model</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_labels_te</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_labels_te</span><span class="p">,</span>
+                                <span class="n">target_names</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------------------------------------------------&#39;</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----- Evaluation on Training Data -----&#39;</span><span class="p">)</span>
     <span class="n">score_tr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy Score: &#39;</span><span class="p">,</span> <span class="n">score_tr</span><span class="p">)</span>
-    <span class="c1"># Look at classification report to evaluate the model</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">pred_labels_tr</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------------------------------------------------&#39;</span><span class="p">)</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">pred_labels_tr</span><span class="p">,</span>
+                                <span class="n">target_names</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------------------------------------------------&#39;</span><span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;active_learning_ml_model_</span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">.pkl&#39;</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;active_learning_models</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">mlb</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;active_learning_models</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;mlb_&#39;</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="find_newest_model"><a class="viewcode-back" href="../../../active_learning.html#src.annotation.active_learning.find_newest_model">[docs]</a><span class="k">def</span> <span class="nf">find_newest_model</span><span class="p">():</span>
@@ -353,8 +381,7 @@
     <span class="n">train_SVC_multilabel_model</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span> <span class="n">C</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">run_train_ml_model</span><span class="p">()</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../active_learning.html#src.annotation.active_learning.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Trains a new SVC multi label model with the latest dataset from </span>
 <span class="sd">    doccano annotation and saves it to active_learning_models if __name__ == </span>
 <span class="sd">    &quot;__main__&quot;.</span>
@@ -363,11 +390,11 @@
 <span class="sd">        NoneType</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">run_train_ml_model</span><span class="p">()</span></div>
 
 
-<span class="c1"># if __name__ == &#39;__main__&#39;:</span>
-<span class="c1">#     #main()</span>
-
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
 </pre></div>
         </article>
       </div>

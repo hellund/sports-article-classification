@@ -16,6 +16,7 @@ Welcome to sports-article-classification!
    :caption: DATA:
 
    EDA <eda>
+   EDA v2 <eda_v2>
    CLUSTERING <clustering>
    
 .. toctree::
