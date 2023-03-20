@@ -8,5 +8,9 @@ setup(
                                     'src.slack_alert',
                                     'src.slack_alert.*',
                                     'src.modelling',
-                                    'src.modelling.*'])
+                                    'src.modelling.*',
+                                    'src.annotation',
+                                    'src.annotation.*',
+                                    'src',
+                                    'src.*'])
 )
