@@ -144,4 +144,11 @@ src/data/helland_data_preprocessing.ipynb
 src/data/vg_football_articles_2022.csv
 
 # Model
-src/modelling/nb-bert-large-finetuned-multi_label_classification
+src/modelling/nb-bert-large-finetuned-multi_label_classification/
+src/modelling/final2-norbert2-finetuned-multi_label_classification/
+src/modelling/final-nb-bert-large-finetuned-multi_label_classification/
+src/modelling/wandb/
+
+
+
+
